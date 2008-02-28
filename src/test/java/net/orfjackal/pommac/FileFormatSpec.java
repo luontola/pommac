@@ -14,7 +14,7 @@ import java.util.*;
 @RunWith(JDaveRunner.class)
 public class FileFormatSpec extends Specification<Object> {
 
-    public class ReadingSgsExampleFile {
+    public class ReadingSgsExample {
 
         private List<Artifact> artifacts;
 
@@ -139,6 +139,89 @@ public class FileFormatSpec extends Specification<Object> {
             for (Artifact artifact : artifacts) {
                 specify(artifact.depends, should.containExactly(expected.get(artifact.artifactId)));
             }
+        }
+    }
+
+    public class ReadingSlickExample {
+
+        private List<Artifact> artifacts;
+
+        public Object create() {
+            String fileText = "" +
+                    "version: slick.zip!/lib/slick.jar!/version >> build=(\\d+) >> b%1$d\n" +
+                    "\n" +
+                    "slick:\n" +
+                    "    slick:\n" +
+                    "        jar:     slick.zip!/lib/slick.jar\n" +
+                    "        sources: slick.zip!/src\n" +
+                    "        javadoc: slick.zip!/javadoc\n" +
+                    "        depends:\n" +
+                    "            - \"slick.deps:lwjgl\"\n" +
+                    "            - \"slick.deps:lwjgl-util-applet, optional\"\n" +
+                    "            - \"slick.deps:ibxm\"\n" +
+                    "            - \"slick.deps:jnlp\"\n" +
+                    "            - \"slick.deps:jogg\"\n" +
+                    "            - \"slick.deps:jorbis\"\n" +
+                    "            - \"slick.deps:tinylinepp\"\n" +
+                    "\n" +
+                    "    # Native Libraries\n" +
+                    "\n" +
+                    "    slick-natives-linux:\n" +
+                    "        jar:     slick.zip!/lib/natives-linux.jar\n" +
+                    "        depends: \"slick:slick\"\n" +
+                    "\n" +
+                    "    slick-natives-mac:\n" +
+                    "        jar:     slick.zip!/lib/natives-mac.jar\n" +
+                    "        depends: \"slick:slick\"\n" +
+                    "\n" +
+                    "    slick-natives-win32:\n" +
+                    "        jar:     slick.zip!/lib/natives-win32.jar\n" +
+                    "        depends: \"slick:slick\"\n" +
+                    "\n" +
+                    "    # Examples\n" +
+                    "\n" +
+                    "    slick-examples:\n" +
+                    "        jar:     slick.zip!/lib/slick-examples.jar\n" +
+                    "        sources: slick.zip!/tools\n" +
+                    "        depends: \"slick:slick-testdata\"\n" +
+                    "\n" +
+                    "    slick-testdata:\n" +
+                    "        resources: slick.zip!/ | testdata/**\n" +
+                    "\n" +
+                    "\n" +
+                    "# Dependencies\n" +
+                    "\n" +
+                    "slick.deps:\n" +
+                    "    lwjgl:\n" +
+                    "        jar:     slick.zip!/lib/lwjgl.jar\n" +
+                    "\n" +
+                    "    lwjgl-util-applet:\n" +
+                    "        jar:     slick.zip!/applet/lwjgl_util_applet.jar\n" +
+                    "\n" +
+                    "    ibxm:\n" +
+                    "        jar:     slick.zip!/lib/ibxm.jar\n" +
+                    "\n" +
+                    "    jnlp:\n" +
+                    "        jar:     slick.zip!/lib/jnlp.jar\n" +
+                    "\n" +
+                    "    jogg:\n" +
+                    "        jar:     slick.zip!/lib/jogg-*.jar\n" +
+                    "        version: slick.zip!/lib/jogg-*.jar | jogg-(.+)\\.jar >> %1$s\n" +
+                    "\n" +
+                    "    jorbis:\n" +
+                    "        jar:     slick.zip!/lib/jorbis-*.jar\n" +
+                    "        version: slick.zip!/lib/jorbis-*.jar | jorbis-(.+)\\.jar >> %1$s\n" +
+                    "\n" +
+                    "    tinylinepp:\n" +
+                    "        jar:     slick.zip!/lib/tinylinepp.jar\n" +
+                    "\n" +
+                    "    # Not used\n" +
+                    "\n" +
+                    "    jinput:\n" +
+                    "        jar:     slick.zip!/lib/jinput.jar";
+            Object data = Yaml.load(fileText);
+            artifacts = Pommac.parse(data);
+            return null;
         }
     }
 }
