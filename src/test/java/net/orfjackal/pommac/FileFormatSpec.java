@@ -124,6 +124,21 @@ public class FileFormatSpec extends Specification<Object> {
             }
         }
 
-        // dependencies
+        public void willReadDependencies() {
+            Map<String, String[]> expected = new HashMap<String, String[]>();
+            expected.put("sgs", new String[]{
+                    "berkeleydb:berkeleydb",
+                    "org.apache.mina:mina-core",
+                    "org.slf4j:slf4j-jdk14"});
+            expected.put("sgs-client", new String[]{
+                    "org.apache.mina:mina-core",
+                    "org.slf4j:slf4j-jdk14"});
+            expected.put("berkeleydb", new String[0]);
+            expected.put("mina-core", new String[0]);
+            expected.put("slf4j-jdk14", new String[0]);
+            for (Artifact artifact : artifacts) {
+                specify(artifact.depends, should.containExactly(expected.get(artifact.artifactId)));
+            }
+        }
     }
 }
