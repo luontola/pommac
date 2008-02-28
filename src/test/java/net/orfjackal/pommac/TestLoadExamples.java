@@ -11,20 +11,31 @@ import java.util.Map;
  */
 public class TestLoadExamples {
     public static void main(String[] args) {
-        Object data = Yaml.load(TestLoadExamples.class.getResourceAsStream("/examples/sgs.pommac"));
+        Object data = Yaml.load(TestLoadExamples.class.getResourceAsStream("/examples/slick.pommac"));
+        printObject(0, data);
+    }
+
+    private static void printObject(int indent, Object data) {
         if (data instanceof List) {
             List<?> list = (List<?>) data;
             for (Object obj : list) {
-                System.out.println(obj);
+                printObject(indent, obj);
             }
         } else if (data instanceof Map) {
             Map<?, ?> map = (Map<?, ?>) data;
             for (Map.Entry<?, ?> entry : map.entrySet()) {
-                System.out.println(entry.getKey());
-                System.out.println("\t" + entry.getValue());
+                println(indent, entry.getKey());
+                printObject(indent + 1, entry.getValue());
             }
         } else {
-            System.out.println(data);
+            println(indent, data);
         }
+    }
+
+    private static void println(int indent, Object obj) {
+        for (int i = 0; i < indent; i++) {
+            System.out.print("\t");
+        }
+        System.out.println(obj);
     }
 }
