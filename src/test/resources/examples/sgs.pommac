@@ -1,37 +1,37 @@
 
-version:  sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\d.]+)-r(\d+) >> %1$s
+version: sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-(.+)-r(\d+) >> %1$s
 
 com.sun.sgs:
     sgs:
-        jar:     sgs-${version}-*.zip!/sgs-*/lib/sgs.jar
-        javadoc: sgs-${version}-*.zip!/sgs-*/doc/sgs-api
+        jar:     sgs-$VERSION-*.zip!/sgs-*/lib/sgs.jar
+        javadoc: sgs-$VERSION-*.zip!/sgs-*/doc/sgs-api
         sources:
-            - sgs-src-${version}-*.zip!/sgs-src-*/src/server/j2se
-            - sgs-src-${version}-*.zip!/sgs-src-*/src/shared/j2se
+            - sgs-src-$VERSION-*.zip!/sgs-src-*/src/server/j2se
+            - sgs-src-$VERSION-*.zip!/sgs-src-*/src/shared/j2se
         depends:
-            - berkeleydb:berkeleydb
-            - org.apache.mina:mina-core
-            - org.slf4j:slf4j-jdk14
-    
+            - "berkeleydb:berkeleydb"
+            - "org.apache.mina:mina-core"
+            - "org.slf4j:slf4j-jdk14"
+
     sgs-client:
-        jar:     sgs-client-${version}-*.zip!/sgs-client-*/lib/sgs-client.jar
-        javadoc: sgs-client-${version}-*.zip!/sgs-client-*/doc/sgs-client-api
+        jar:     sgs-client-$VERSION-*.zip!/sgs-client-*/lib/sgs-client.jar
+        javadoc: sgs-client-$VERSION-*.zip!/sgs-client-*/doc/sgs-client-api
         sources:
-            - sgs-client-src-${version}-*.zip!/sgs-client-src-*/src/client/j2se
-            - sgs-client-src-${version}-*.zip!/sgs-client-src-*/src/shared/j2se
+            - sgs-client-src-$VERSION-*.zip!/sgs-client-src-*/src/client/j2se
+            - sgs-client-src-$VERSION-*.zip!/sgs-client-src-*/src/shared/j2se
         depends:
-            - org.apache.mina:mina-core
-            - org.slf4j:slf4j-jdk14
+            - "org.apache.mina:mina-core"
+            - "org.slf4j:slf4j-jdk14"
 
 berkeleydb:
     berkeleydb:
-        jar:     sgs-${version}-*.zip!/bdb-*/db.jar
-        version: sgs-${version}-*.zip!/bdb-* | bdb-([\d.]+) >> %1$s
+        jar:     sgs-$VERSION-*.zip!/bdb-*/db.jar
+        version: sgs-$VERSION-*.zip!/bdb-* | bdb-(.+) >> %1$s
 
 org.apache.mina:
     mina-core:
-        mvn:     sgs-${version}-*.zip!/mina-*/mina-core-*.jar
+        mvn:     sgs-$VERSION-*.zip!/mina-*/mina-core-*.jar
 
 org.slf4j:
     slf4j-jdk14:
-        mvn:     sgs-${version}-*.zip!/slf4j-*/slf4j-jdk14-*.jar
+        mvn:     sgs-$VERSION-*.zip!/slf4j-*/slf4j-jdk14-*.jar
