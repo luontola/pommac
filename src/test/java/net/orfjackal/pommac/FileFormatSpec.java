@@ -62,7 +62,7 @@ public class FileFormatSpec extends Specification<Object> {
             return null;
         }
 
-        public void groupidWillBeRead() {
+        public void willReadGroupId() {
             Set<String> groupIds = new HashSet<String>();
             for (Artifact artifact : artifacts) {
                 groupIds.add(artifact.groupId);
@@ -70,7 +70,7 @@ public class FileFormatSpec extends Specification<Object> {
             specify(groupIds, does.containExactly("com.sun.sgs", "berkeleydb", "org.apache.mina", "org.slf4j"));
         }
 
-        public void artifactidWillBeRead() {
+        public void willReadArtifactId() {
             Set<String> artifactIds = new HashSet<String>();
             for (Artifact artifact : artifacts) {
                 artifactIds.add(artifact.artifactId);
@@ -78,7 +78,17 @@ public class FileFormatSpec extends Specification<Object> {
             specify(artifactIds, does.containExactly("sgs", "sgs-client", "berkeleydb", "mina-core", "slf4j-jdk14"));
         }
 
-        public void jarWillBeRead() {
+        public void willReadVersion() {
+            Map<String, String> expected = new HashMap<String, String>();
+            expected.put("sgs", "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-(.+)-r(\\d+) >> %1$s");
+            expected.put("sgs-client", "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-(.+)-r(\\d+) >> %1$s");
+            expected.put("berkeleydb", "sgs-$VERSION-*.zip!/bdb-* | bdb-(.+) >> %1$s");
+            for (Artifact artifact : artifacts) {
+                specify(artifact.version, does.equal(expected.get(artifact.artifactId)));
+            }
+        }
+
+        public void willReadJar() {
             Map<String, String> expected = new HashMap<String, String>();
             expected.put("sgs", "sgs-$VERSION-*.zip!/sgs-*/lib/sgs.jar");
             expected.put("sgs-client", "sgs-client-$VERSION-*.zip!/sgs-client-*/lib/sgs-client.jar");
@@ -88,14 +98,32 @@ public class FileFormatSpec extends Specification<Object> {
             }
         }
 
-        public void javadocWillBeRead() {
+        public void willReadSources() {
+            Map<String, String[]> expected = new HashMap<String, String[]>();
+            expected.put("sgs", new String[]{
+                    "sgs-src-$VERSION-*.zip!/sgs-src-*/src/server/j2se",
+                    "sgs-src-$VERSION-*.zip!/sgs-src-*/src/shared/j2se"});
+            expected.put("sgs-client", new String[]{
+                    "sgs-client-src-$VERSION-*.zip!/sgs-client-src-*/src/client/j2se",
+                    "sgs-client-src-$VERSION-*.zip!/sgs-client-src-*/src/shared/j2se"});
+            expected.put("berkeleydb", new String[0]);
+            expected.put("mina-core", new String[0]);
+            expected.put("slf4j-jdk14", new String[0]);
+            for (Artifact artifact : artifacts) {
+                specify(artifact.sources, should.containExactly(expected.get(artifact.artifactId)));
+            }
+        }
+
+        public void willReadJavadoc() {
             Map<String, String> expected = new HashMap<String, String>();
             expected.put("sgs", "sgs-$VERSION-*.zip!/sgs-*/doc/sgs-api");
             expected.put("sgs-client", "sgs-client-$VERSION-*.zip!/sgs-client-*/doc/sgs-client-api");
+            expected.put("berkeleydb", null);
             for (Artifact artifact : artifacts) {
                 specify(artifact.javadoc, does.equal(expected.get(artifact.artifactId)));
             }
         }
 
+        // dependencies
     }
 }

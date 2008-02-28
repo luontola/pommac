@@ -11,7 +11,7 @@ public class Artifact {
     public String version;
 
     public String jar;
-    public String sources;
+    public String[] sources;
     public String javadoc;
     public String[] depends;
 }
