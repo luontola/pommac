@@ -3,15 +3,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.orfjackal.tools</groupId>
-    <artifactId>template-project</artifactId>
+    <groupId>net.orfjackal.pommac</groupId>
+    <artifactId>pommac</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Template Project</name>
-    <description>Base project structure for a new project</description>
+    <name>Pommac for Maven</name>
+    <description>Imports non-maven libraries to a Maven repository with the help of a configuration file</description>
     <url>http://www.orfjackal.net</url>
-    <inceptionYear>200x</inceptionYear>
+    <inceptionYear>2008</inceptionYear>
 
     <developers>
         <developer>
@@ -21,8 +21,8 @@
     </developers>
 
     <scm>
-        <connection>scm:svn:svn://tux/orfjackal/tools/template-project/trunk</connection>
-        <developerConnection>scm:svn:svn://tux/orfjackal/tools/template-project/trunk</developerConnection>
+        <connection>scm:svn:svn://tux/orfjackal/pommac/trunk</connection>
+        <developerConnection>scm:svn:svn://tux/orfjackal/pommac/trunk</developerConnection>
     </scm>
 
     <repositories>
@@ -57,11 +57,10 @@
         <dependency>
             <groupId>org.jdave</groupId>
             <artifactId>jdave-junit4</artifactId>
-            <version>1.0-rc1</version>
+            <version>1.0</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- Needed because of a bug in Surefire. See: https://www.laughingpanda.org/jira/browse/JDAVE-24 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -97,7 +96,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>net.orfjackal.tools.templateproject.App</mainClass>
+                            <mainClass>net.orfjackal.pommac.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -115,7 +114,7 @@
                     </descriptors>
                     <archive>
                         <manifest>
-                            <mainClass>net.orfjackal.tools.templateproject.App</mainClass>
+                            <mainClass>net.orfjackal.pommac.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
