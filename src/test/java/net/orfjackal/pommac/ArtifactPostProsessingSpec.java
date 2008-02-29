@@ -184,4 +184,10 @@ public class ArtifactPostProsessingSpec extends Specification<Object> {
             specify(new File(sgs.javadoc).toURI().toString().endsWith("/doc/sgs-api/"));
         }
     }
+
+    // TODO: zip sources, resources, javadoc
+    // TODO: link dependencies
+    // TODO: create pom
+    // TODO: commands for importing to repository
+    // TODO: intergration test
 }
