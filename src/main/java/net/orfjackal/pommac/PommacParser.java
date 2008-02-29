@@ -7,11 +7,11 @@ import java.util.*;
  * @since 29.2.2008
  */
 @SuppressWarnings({"unchecked"})
-public class PommacFileFormat {
+public class PommacParser {
 
-    private static String defaultVersion;
+    private String defaultVersion;
 
-    public static List<Artifact> parse(Object data) {
+    public List<Artifact> parse(Object data) {
         List<Artifact> artifacts = new ArrayList<Artifact>();
         Map<String, Object> groups = (Map<String, Object>) data;
 
@@ -30,7 +30,7 @@ public class PommacFileFormat {
         return artifacts;
     }
 
-    private static void parseArtifact(List<Artifact> results, String groupId, Object data) {
+    private void parseArtifact(List<Artifact> results, String groupId, Object data) {
         Map<String, Object> artifacts = (Map<String, Object>) data;
         for (Map.Entry<String, Object> artifactEntry : artifacts.entrySet()) {
             String artifactId = artifactEntry.getKey();
@@ -49,7 +49,7 @@ public class PommacFileFormat {
         }
     }
 
-    private static String getVersion(Map<String, Object> artifactMap) {
+    private String getVersion(Map<String, Object> artifactMap) {
         String version = (String) artifactMap.get("version");
         if (version == null && !artifactMap.containsKey("mvn")) {
             version = defaultVersion;
@@ -57,23 +57,23 @@ public class PommacFileFormat {
         return version;
     }
 
-    private static String getJar(Map<String, Object> artifactMap) {
+    private String getJar(Map<String, Object> artifactMap) {
         return (String) artifactMap.get("jar");
     }
 
-    private static String[] getSources(Map<String, Object> artifactMap) {
+    private String[] getSources(Map<String, Object> artifactMap) {
         return asArray("sources", artifactMap);
     }
 
-    private static String[] getResources(Map<String, Object> artifactMap) {
+    private String[] getResources(Map<String, Object> artifactMap) {
         return asArray("resources", artifactMap);
     }
 
-    private static String getJavadoc(Map<String, Object> artifactMap) {
+    private String getJavadoc(Map<String, Object> artifactMap) {
         return (String) artifactMap.get("javadoc");
     }
 
-    private static String[] getDepends(Map<String, Object> artifactMap) {
+    private String[] getDepends(Map<String, Object> artifactMap) {
         return asArray("depends", artifactMap);
     }
 
