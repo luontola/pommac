@@ -19,18 +19,14 @@ public final class ExpressionInterpreter {
 
     public static String evaluate(File workDir, String expression) {
         List<String> words = splitWords(expression);
-
+        if (words.size() == 1) {
+            return words.get(0);
+        }
         String pathQuery = words.get(0);
         String op1 = words.get(1);
         String regex = words.get(2);
         String op2 = words.get(3);
         String format = words.get(4);
-
-//        System.out.println(pathQuery);
-//        System.out.println(op1);
-//        System.out.println(regex);
-//        System.out.println(op2);
-//        System.out.println(format);
 
         FileLocator locator = new FileLocator();
         String result;

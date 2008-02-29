@@ -114,5 +114,11 @@ public class ExpressionInterpreterSpec extends Specification<Object> {
             sgs.calculateVersion(workDir);
             specify(sgs.version, does.equal("b153"));
         }
+
+        public void canBeReadFromAConstant() {
+            sgs.version = "0.9.6";
+            sgs.calculateVersion(workDir);
+            specify(sgs.version, does.equal("0.9.6"));
+        }
     }
 }
