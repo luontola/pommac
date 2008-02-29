@@ -2,6 +2,7 @@ package net.orfjackal.pommac;
 
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
+import net.orfjackal.pommac.util.FileUtil;
 import org.junit.runner.RunWith;
 
 import java.io.File;

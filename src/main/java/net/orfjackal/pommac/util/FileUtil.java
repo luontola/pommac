@@ -1,4 +1,4 @@
-package net.orfjackal.pommac;
+package net.orfjackal.pommac.util;
 
 import java.io.*;
 import java.util.zip.ZipFile;

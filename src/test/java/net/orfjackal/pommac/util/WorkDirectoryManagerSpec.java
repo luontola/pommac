@@ -1,7 +1,8 @@
-package net.orfjackal.pommac;
+package net.orfjackal.pommac.util;
 
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
+import net.orfjackal.pommac.TestUtil;
 import org.junit.runner.RunWith;
 
 import java.io.File;

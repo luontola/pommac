@@ -1,5 +1,7 @@
 package net.orfjackal.pommac;
 
+import net.orfjackal.pommac.util.FileUtil;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
