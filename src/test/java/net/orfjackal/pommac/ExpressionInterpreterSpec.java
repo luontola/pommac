@@ -121,4 +121,32 @@ public class ExpressionInterpreterSpec extends Specification<Object> {
             specify(sgs.version, does.equal("0.9.6"));
         }
     }
+
+    public class LocatingFilePath {
+
+        private File workDir;
+
+        public Object create() throws IOException {
+            initTestData();
+            workDir = TestUtil.createWorkDir();
+            ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(
+                    new File(workDir, "sgs-0.9.5.1-r3730.zip")));
+            zip.putNextEntry(new ZipEntry("sgs-0.9.5.1-r3730/lib/sgs.jar"));
+            zip.write("JAR_FILE".getBytes());
+            zip.close();
+            return null;
+        }
+
+        public void destroy() {
+            TestUtil.deleteWorkDir();
+        }
+
+        public void willLocateJar() {
+            sgs.jar = "sgs-0.9.5.1-*.zip!/sgs-*/lib/sgs.jar";
+            sgs.locateFiles();
+            File file = new File(sgs.jar);
+            
+        }
+
+    }
 }

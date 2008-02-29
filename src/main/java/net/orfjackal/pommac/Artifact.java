@@ -40,4 +40,8 @@ public class Artifact {
     public void calculateVersion(File workDir) {
         version = ExpressionInterpreter.evaluate(workDir, version);
     }
+
+    public void locateFiles() {
+        
+    }
 }

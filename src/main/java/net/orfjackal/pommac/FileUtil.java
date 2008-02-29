@@ -13,22 +13,14 @@ public final class FileUtil {
     }
 
     public static String contentsOf(File file) {
-        Reader in = null;
         try {
-            in = new FileReader(file);
-            StringBuilder out = new StringBuilder();
-
-            char[] buf = new char[1024];
-            int len;
-            while ((len = in.read(buf)) >= 0) {
-                out.append(buf, 0, len);
-            }
+            FileInputStream in = new FileInputStream(file);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            copy(in, out);
             return out.toString();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(in);
+            throw new RuntimeException("Unable to read: " + file, e);
         }
     }
 
