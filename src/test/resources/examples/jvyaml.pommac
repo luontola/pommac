@@ -1,0 +1,6 @@
+
+org.jvyaml:
+    jvyaml:
+        version: jvyaml-src-*.tar.gz!/jvyaml-* | jvyaml-([\d.]+) >> %1$s
+        jar:     jvyaml-src-*.tar.gz!/jvyaml-*/lib/jvyaml.jar
+        sources: jvyaml-src-*.tar.gz!/jvyaml-*/src | -test
