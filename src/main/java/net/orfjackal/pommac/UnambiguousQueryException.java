@@ -10,7 +10,11 @@ import java.util.Arrays;
 public class UnambiguousQueryException extends RuntimeException {
 
     public UnambiguousQueryException(String query, File[] found) {
-        super("Unambiguous query: " + query + "\n" +
-                "More than one match: " + Arrays.asList(found));
+        super(toMessage(query, found));
+    }
+
+    private static String toMessage(String query, File[] found) {
+        return "Unambiguous query: " + query + "\n" +
+                "More than one match: " + Arrays.asList(found);
     }
 }

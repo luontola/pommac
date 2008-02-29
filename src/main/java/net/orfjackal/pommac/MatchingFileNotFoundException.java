@@ -5,8 +5,16 @@ package net.orfjackal.pommac;
  * @since 29.2.2008
  */
 public class MatchingFileNotFoundException extends RuntimeException {
-    
+
     public MatchingFileNotFoundException(String query) {
-        super("No file matching: " + query);
+        super(toMessage(query));
+    }
+
+    public MatchingFileNotFoundException(String query, Throwable cause) {
+        super(toMessage(query), cause);
+    }
+
+    private static String toMessage(String query) {
+        return "No file matching: " + query;
     }
 }

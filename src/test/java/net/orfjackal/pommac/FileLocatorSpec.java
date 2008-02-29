@@ -73,5 +73,43 @@ public class FileLocatorSpec extends Specification<Object> {
             }, does.raise(UnambiguousQueryException.class, "Unambiguous query: aa*.txt\n" +
                     "More than one match: [" + aabbcc + ", " + aabccd + "]"));
         }
+
+        public void failsIfQueryIsEmpty() {
+            specify(new Block() {
+                public void run() throws Throwable {
+                    FileLocator.findFile(workDir, "");
+                }
+            }, does.raise(MatchingFileNotFoundException.class));
+        }
+    }
+
+    public class WhenQueryingForDirectories {
+
+        private File workDir;
+        private File subDir;
+        private File aabbcc;
+
+        public Object create() throws IOException {
+            workDir = TestUtil.createWorkDir();
+            subDir = new File(workDir, "subdir");
+            aabbcc = new File(subDir, "aabbcc.txt");
+            specify(subDir.mkdir());
+            specify(aabbcc.createNewFile());
+            return null;
+        }
+
+        public void destroy() {
+            TestUtil.deleteWorkDir();
+        }
+
+        public void findsADirectory() {
+            File found = FileLocator.findFile(workDir, "subdir");
+            specify(found, does.equal(subDir));
+        }
+
+        public void findsAFileFromADirectory() {
+            File found = FileLocator.findFile(workDir, "subdir/aabbcc.txt");
+            specify(found, does.equal(aabbcc));
+        }
     }
 }

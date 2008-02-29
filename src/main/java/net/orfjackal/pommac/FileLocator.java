@@ -11,16 +11,26 @@ import java.util.regex.Pattern;
 public class FileLocator {
 
     public static File findFile(File dir, String query) {
-        final Pattern pattern = Pattern.compile(toRegex(query));
+        String[] parts = query.split("/");
+        assert parts.length > 0;
+        File current = dir;
+        for (String part : parts) {
+            current = findFile(current, part, query);
+        }
+        return current;
+    }
+
+    private static File findFile(File dir, String nameQuery, String fullQuery) {
+        final Pattern pattern = Pattern.compile(toRegex(nameQuery));
         File[] found = dir.listFiles(new FileFilter() {
             public boolean accept(File file) {
                 return pattern.matcher(file.getName()).matches();
             }
         });
         if (found.length == 0) {
-            throw new MatchingFileNotFoundException(query);
+            throw new MatchingFileNotFoundException(fullQuery);
         } else if (found.length > 1) {
-            throw new UnambiguousQueryException(query, found);
+            throw new UnambiguousQueryException(fullQuery, found);
         }
         return found[0];
     }
