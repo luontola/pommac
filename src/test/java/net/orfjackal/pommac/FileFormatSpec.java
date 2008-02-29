@@ -225,6 +225,12 @@ public class FileFormatSpec extends Specification<Object> {
             return null;
         }
 
-        // TODO
+        public void willReadGroupId() {
+            Set<String> groupIds = new HashSet<String>();
+            for (Artifact artifact : artifacts) {
+                groupIds.add(artifact.groupId);
+            }
+            specify(groupIds, does.containExactly("slick", "slick.deps"));
+        }
     }
 }

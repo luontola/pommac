@@ -1,8 +1,6 @@
 package net.orfjackal.pommac;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Esko Luontola
@@ -63,14 +61,7 @@ public class Pommac {
     }
 
     private static String[] getSources(Map<String, Object> artifactMap) {
-        String[] sources;
-        if (artifactMap.containsKey("sources")) {
-            List<String> list = (List<String>) artifactMap.get("sources");
-            sources = list.toArray(new String[list.size()]);
-        } else {
-            sources = new String[0];
-        }
-        return sources;
+        return asArray("sources", artifactMap);
     }
 
     private static String getJavadoc(Map<String, Object> artifactMap) {
@@ -78,13 +69,19 @@ public class Pommac {
     }
 
     private static String[] getDepends(Map<String, Object> artifactMap) {
-        String[] depends;
-        if (artifactMap.containsKey("depends")) {
-            List<String> list = (List<String>) artifactMap.get("depends");
-            depends = list.toArray(new String[list.size()]);
-        } else {
-            depends = new String[0];
+        return asArray("depends", artifactMap);
+    }
+
+    private static String[] asArray(String key, Map<String, Object> map) {
+        List<String> list = Collections.EMPTY_LIST;
+        if (map.containsKey(key)) {
+            Object value = map.get(key);
+            if (value instanceof List) {
+                list = (List<String>) value;
+            } else {
+                list = Arrays.asList((String) value);
+            }
         }
-        return depends;
+        return list.toArray(new String[list.size()]);
     }
 }
