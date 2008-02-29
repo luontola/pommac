@@ -14,6 +14,7 @@ import java.util.zip.ZipOutputStream;
  * @author Esko Luontola
  * @since 29.2.2008
  */
+@SuppressWarnings({"FieldCanBeLocal"})
 @RunWith(JDaveRunner.class)
 public class ExpressionInterpreterSpec extends Specification<Object> {
 
@@ -125,28 +126,61 @@ public class ExpressionInterpreterSpec extends Specification<Object> {
     public class LocatingFilePath {
 
         private File workDir;
+        private FileLocator locator;
 
         public Object create() throws IOException {
-            initTestData();
             workDir = TestUtil.createWorkDir();
+            locator = new FileLocator(workDir);
+
+            initTestData();
+            sgs.jar = "sgs-src-0.9.5.1-*.zip!/sgs-*/lib/sgs.jar";
+            sgs.sources = new String[]{
+                    "sgs-src-0.9.5.1-*.zip!/sgs-src-*/src/server/j2se",
+                    "sgs-src-0.9.5.1-*.zip!/sgs-src-*/src/shared/j2se"
+            };
+            sgs.resources = new String[]{
+                    "sgs-src-0.9.5.1-*.zip!/sgs-src-*/resources"
+            };
+            sgs.javadoc = "sgs-src-0.9.5.1-*.zip!/sgs-*/doc/sgs-api";
+
             ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(
-                    new File(workDir, "sgs-0.9.5.1-r3730.zip")));
-            zip.putNextEntry(new ZipEntry("sgs-0.9.5.1-r3730/lib/sgs.jar"));
+                    new File(workDir, "sgs-src-0.9.5.1-r3730.zip")));
+            zip.putNextEntry(new ZipEntry("sgs-src-0.9.5.1-r3730/lib/sgs.jar"));
             zip.write("JAR_FILE".getBytes());
+            zip.putNextEntry(new ZipEntry("sgs-src-0.9.5.1-r3730/src/server/j2se/"));
+            zip.putNextEntry(new ZipEntry("sgs-src-0.9.5.1-r3730/src/shared/j2se/"));
+            zip.putNextEntry(new ZipEntry("sgs-src-0.9.5.1-r3730/resources/"));
+            zip.putNextEntry(new ZipEntry("sgs-src-0.9.5.1-r3730/doc/sgs-api/"));
             zip.close();
+
+            sgs.locateFiles(locator);
             return null;
         }
 
         public void destroy() {
+            locator.dispose();
             TestUtil.deleteWorkDir();
         }
 
         public void willLocateJar() {
-            sgs.jar = "sgs-0.9.5.1-*.zip!/sgs-*/lib/sgs.jar";
-            sgs.locateFiles();
-            File file = new File(sgs.jar);
-            
+            specify(FileUtil.contentsOf(new File(sgs.jar)), does.equal("JAR_FILE"));
         }
 
+        public void willLocateSources() {
+            specify(new File(sgs.sources[0]).isDirectory());
+            specify(new File(sgs.sources[0]).toURI().toString().endsWith("/src/server/j2se/"));
+            specify(new File(sgs.sources[1]).isDirectory());
+            specify(new File(sgs.sources[1]).toURI().toString().endsWith("/src/shared/j2se/"));
+        }
+
+        public void willLocateResources() {
+            specify(new File(sgs.resources[0]).isDirectory());
+            specify(new File(sgs.resources[0]).toURI().toString().endsWith("/resources/"));
+        }
+
+        public void willLocateJavadoc() {
+            specify(new File(sgs.javadoc).isDirectory());
+            specify(new File(sgs.javadoc).toURI().toString().endsWith("/doc/sgs-api/"));
+        }
     }
 }

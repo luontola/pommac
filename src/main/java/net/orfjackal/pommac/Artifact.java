@@ -41,7 +41,18 @@ public class Artifact {
         version = ExpressionInterpreter.evaluate(workDir, version);
     }
 
-    public void locateFiles() {
-        
+    public void locateFiles(FileLocator locator) {
+        if (jar != null) {
+            jar = locator.findFile(jar).getAbsolutePath();
+        }
+        for (int i = 0; i < sources.length; i++) {
+            sources[i] = locator.findFile(sources[i]).getAbsolutePath();
+        }
+        for (int i = 0; i < resources.length; i++) {
+            resources[i] = locator.findFile(resources[i]).getAbsolutePath();
+        }
+        if (javadoc != null) {
+            javadoc = locator.findFile(javadoc).getAbsolutePath();
+        }
     }
 }

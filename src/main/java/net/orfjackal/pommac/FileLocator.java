@@ -10,10 +10,24 @@ import java.util.regex.Pattern;
  */
 public class FileLocator {
 
-    private final WorkDirectoryManager manager = new WorkDirectoryManager();
+    private final File workDir;
+    private final WorkDirectoryManager manager;
+
+    public FileLocator() {
+        this(new File("").getAbsoluteFile());
+    }
+
+    public FileLocator(File workDir) {
+        this.workDir = workDir;
+        manager = new WorkDirectoryManager(workDir);
+    }
 
     public void dispose() {
         manager.dispose();
+    }
+
+    public File findFile(String query) {
+        return findFile(workDir, query);
     }
 
     public File findFile(File dir, String query) {
