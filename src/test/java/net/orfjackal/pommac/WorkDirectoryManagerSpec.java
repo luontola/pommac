@@ -33,14 +33,14 @@ public class WorkDirectoryManagerSpec extends Specification<Object> {
             specify(parentDir.listFiles(), does.containExactly());
         }
 
-        public void newDirectoriesAreAddedToTheParentDirectory() {
+        public void directoriesAreCreatedInTheTargetDirectory() {
             File dir = manager.newDirectory();
             specify(parentDir.listFiles(), does.containExactly(dir));
             specify(dir.isDirectory());
             specify(dir.listFiles(), does.containExactly());
         }
 
-        public void eachNewDirectoryHasAnUniqueName() {
+        public void eachNewDirectoryHasAUniqueName() {
             File dir1 = manager.newDirectory();
             File dir2 = manager.newDirectory();
             specify(dir1.isDirectory());
