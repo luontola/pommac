@@ -7,9 +7,12 @@ import java.io.IOException;
  * @author Esko Luontola
  * @since 29.2.2008
  */
-public class TestUtil {
+public final class TestUtil {
 
     private static final File WORK_DIR = new File("workdir_" + System.currentTimeMillis() + ".tmp");
+
+    private TestUtil() {
+    }
 
     public static File createWorkDir() {
         if (WORK_DIR.exists()) {
