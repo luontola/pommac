@@ -1,5 +1,5 @@
 
-version: sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\d.]+)-r(\d+) >> %1$s
+version: sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\d\.]+)-r(\d+) >> %1$s
 
 com.sun.sgs:
     sgs:
@@ -26,7 +26,7 @@ com.sun.sgs:
 berkeleydb:
     berkeleydb:
         jar:     sgs-${version}-*.zip!/bdb-*/db.jar
-        version: sgs-${version}-*.zip!/bdb-* | bdb-([\d.]+) >> %1$s
+        version: sgs-${version}-*.zip!/bdb-* | bdb-([\d\.]+) >> %1$s
 
 org.apache.mina:
     mina-core:

@@ -20,7 +20,7 @@ public class FileFormatSpec extends Specification<Object> {
 
         public Object create() {
             String fileText = "" +
-                    "version: sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d.]+)-r(\\d+) >> %1$s\n" +
+                    "version: sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s\n" +
                     "\n" +
                     "com.sun.sgs:\n" +
                     "    sgs:\n" +
@@ -47,7 +47,7 @@ public class FileFormatSpec extends Specification<Object> {
                     "berkeleydb:\n" +
                     "    berkeleydb:\n" +
                     "        jar:     sgs-${version}-*.zip!/bdb-*/db.jar\n" +
-                    "        version: sgs-${version}-*.zip!/bdb-* | bdb-([\\d.]+) >> %1$s\n" +
+                    "        version: sgs-${version}-*.zip!/bdb-* | bdb-([\\d\\.]+) >> %1$s\n" +
                     "\n" +
                     "org.apache.mina:\n" +
                     "    mina-core:\n" +
@@ -80,9 +80,9 @@ public class FileFormatSpec extends Specification<Object> {
 
         public void willReadVersion() {
             Map<String, String> expected = new HashMap<String, String>();
-            expected.put("sgs", "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d.]+)-r(\\d+) >> %1$s");
-            expected.put("sgs-client", "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d.]+)-r(\\d+) >> %1$s");
-            expected.put("berkeleydb", "sgs-${version}-*.zip!/bdb-* | bdb-([\\d.]+) >> %1$s");
+            expected.put("sgs", "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s");
+            expected.put("sgs-client", "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s");
+            expected.put("berkeleydb", "sgs-${version}-*.zip!/bdb-* | bdb-([\\d\\.]+) >> %1$s");
             for (Artifact artifact : artifacts) {
                 specify(artifact.version, does.equal(expected.get(artifact.artifactId)));
             }
@@ -205,11 +205,11 @@ public class FileFormatSpec extends Specification<Object> {
                     "\n" +
                     "    jogg:\n" +
                     "        jar:     slick.zip!/lib/jogg-*.jar\n" +
-                    "        version: slick.zip!/lib/jogg-*.jar | jogg-(.+)\\.jar >> %1$s\n" +
+                    "        version: slick.zip!/lib/jogg-*.jar | jogg-([\\d\\.]+)\\.jar >> %1$s\n" +
                     "\n" +
                     "    jorbis:\n" +
                     "        jar:     slick.zip!/lib/jorbis-*.jar\n" +
-                    "        version: slick.zip!/lib/jorbis-*.jar | jorbis-(.+)\\.jar >> %1$s\n" +
+                    "        version: slick.zip!/lib/jorbis-*.jar | jorbis-([\\d\\.]+)\\.jar >> %1$s\n" +
                     "\n" +
                     "    tinylinepp:\n" +
                     "        jar:     slick.zip!/lib/tinylinepp.jar\n" +
@@ -256,8 +256,8 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("lwjgl-util-applet", slickVersion);
             expected.put("ibxm", slickVersion);
             expected.put("jnlp", slickVersion);
-            expected.put("jogg", "slick.zip!/lib/jogg-*.jar | jogg-(.+)\\.jar >> %1$s");
-            expected.put("jorbis", "slick.zip!/lib/jorbis-*.jar | jorbis-(.+)\\.jar >> %1$s");
+            expected.put("jogg", "slick.zip!/lib/jogg-*.jar | jogg-([\\d\\.]+)\\.jar >> %1$s");
+            expected.put("jorbis", "slick.zip!/lib/jorbis-*.jar | jorbis-([\\d\\.]+)\\.jar >> %1$s");
             expected.put("tinylinepp", slickVersion);
             expected.put("jinput", slickVersion);
             for (Artifact artifact : artifacts) {

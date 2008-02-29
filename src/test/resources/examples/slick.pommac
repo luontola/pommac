@@ -56,11 +56,11 @@ slick.deps:
 
     jogg:
         jar:     slick.zip!/lib/jogg-*.jar
-        version: slick.zip!/lib/jogg-*.jar | jogg-(.+)\.jar >> %1$s
+        version: slick.zip!/lib/jogg-*.jar | jogg-([\d\.]+)\.jar >> %1$s
 
     jorbis:
         jar:     slick.zip!/lib/jorbis-*.jar
-        version: slick.zip!/lib/jorbis-*.jar | jorbis-(.+)\.jar >> %1$s
+        version: slick.zip!/lib/jorbis-*.jar | jorbis-([\d\.]+)\.jar >> %1$s
 
     tinylinepp:
         jar:     slick.zip!/lib/tinylinepp.jar
