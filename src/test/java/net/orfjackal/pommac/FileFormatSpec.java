@@ -308,6 +308,27 @@ public class FileFormatSpec extends Specification<Object> {
             }
         }
 
+        public void willReadSources() {
+            Map<String, String[]> expected = new HashMap<String, String[]>();
+            expected.put("slick", new String[]{"slick.zip!/src"});
+            expected.put("slick-natives-linux", new String[0]);
+            expected.put("slick-natives-mac", new String[0]);
+            expected.put("slick-natives-win32", new String[0]);
+            expected.put("slick-examples", new String[]{"slick.zip!/tools"});
+            expected.put("slick-testdata", new String[0]);
+            expected.put("lwjgl", new String[0]);
+            expected.put("lwjgl-util-applet", new String[0]);
+            expected.put("ibxm", new String[0]);
+            expected.put("jnlp", new String[0]);
+            expected.put("jogg", new String[0]);
+            expected.put("jorbis", new String[0]);
+            expected.put("tinylinepp", new String[0]);
+            expected.put("jinput", new String[0]);
+            for (Artifact artifact : artifacts) {
+                specify(artifact.sources, should.containExactly(expected.get(artifact.artifactId)));
+            }
+        }
+
         /*
            expected.put("slick", "");
            expected.put("slick-natives-linux", "");
