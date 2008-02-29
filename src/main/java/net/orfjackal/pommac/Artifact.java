@@ -43,43 +43,54 @@ public class Artifact {
     }
 
     public void calculateVersion(File workDir) {
-        List<String> parts = new ArrayList<String>();
-        Scanner in = new Scanner(version);
-        while (in.hasNext()) {
-            parts.add(in.next());
-        }
+        List<String> words = splitWords(version);
 
-        String pathQuery = parts.get(0);
-        System.out.println(pathQuery);
-        String op1 = parts.get(1);
-        System.out.println(op1);
+        String pathQuery = words.get(0);
+        String op1 = words.get(1);
         assert op1.equals("|");
-        String regex = parts.get(2);
-        System.out.println(regex);
-        String op2 = parts.get(3);
-        System.out.println(op2);
+        String regex = words.get(2);
+        String op2 = words.get(3);
         assert op2.equals(">>");
-        String format = parts.get(4);
+        String format = words.get(4);
+
+        System.out.println(pathQuery);
+        System.out.println(op1);
+        System.out.println(regex);
+        System.out.println(op2);
         System.out.println(format);
 
         FileLocator locator = new FileLocator();
         try {
             File file = locator.findFile(workDir, pathQuery);
-            System.out.println("file = " + file);
-
-            Pattern p = Pattern.compile(regex);
-            Matcher m = p.matcher(file.getName());
-            System.out.println(m);
-            if (!m.matches()) {
-                throw new IllegalArgumentException(regex + " does not match " + file);
-            }
-            String[] groups = new String[m.groupCount()];
-            for (int i = 0; i < groups.length; i++) {
-                groups[i] = m.group(i + 1);
-            }
-            version = String.format(format, groups);
+            String[] groups = matchingGroups(regex, file.getName());
+            version = String.format(format, (Object[]) groups);
         } finally {
             locator.dispose();
         }
+    }
+
+    private static List<String> splitWords(String s) {
+        List<String> words = new ArrayList<String>();
+        Scanner in = new Scanner(s);
+        while (in.hasNext()) {
+            words.add(in.next());
+        }
+        return words;
+    }
+
+    private static String[] matchingGroups(String regex, String s) {
+        Matcher m = Pattern.compile(regex).matcher(s);
+        if (m.matches()) {
+            return groupsToArray(m);
+        }
+        throw new IllegalArgumentException(regex + " does not match " + s);
+    }
+
+    private static String[] groupsToArray(Matcher m) {
+        String[] groups = new String[m.groupCount()];
+        for (int i = 0; i < groups.length; i++) {
+            groups[i] = m.group(i + 1);
+        }
+        return groups;
     }
 }
