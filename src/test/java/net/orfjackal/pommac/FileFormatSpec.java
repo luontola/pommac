@@ -2,8 +2,8 @@ package net.orfjackal.pommac;
 
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
-import org.ho.yaml.Yaml;
 import org.junit.runner.RunWith;
+import org.jvyaml.YAML;
 
 import java.util.*;
 
@@ -57,7 +57,7 @@ public class FileFormatSpec extends Specification<Object> {
                     "    slf4j-jdk14:\n" +
                     "        mvn:     sgs-$VERSION-*.zip!/slf4j-*/slf4j-jdk14-*.jar\n" +
                     "";
-            Object data = Yaml.load(fileText);
+            Object data = YAML.load(fileText);
             artifacts = Pommac.parse(data);
             return null;
         }
@@ -219,7 +219,7 @@ public class FileFormatSpec extends Specification<Object> {
                     "\n" +
                     "    jinput:\n" +
                     "        jar:     slick.zip!/lib/jinput.jar";
-            Object data = Yaml.load(fileText);
+            Object data = YAML.load(fileText);
             artifacts = Pommac.parse(data);
             return null;
         }

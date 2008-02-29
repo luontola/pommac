@@ -1,7 +1,8 @@
 package net.orfjackal.pommac;
 
-import org.ho.yaml.Yaml;
+import org.jvyaml.YAML;
 
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +11,10 @@ import java.util.Map;
  * @since 28.2.2008
  */
 public class TestLoadExamples {
+
     public static void main(String[] args) {
-        Object data = Yaml.load(TestLoadExamples.class.getResourceAsStream("/examples/slick.pommac"));
-        printObject(0, data);
+        Object jvyaml = YAML.load(new InputStreamReader(TestLoadExamples.class.getResourceAsStream("/examples/sgs.pommac")));
+        printObject(0, jvyaml);
     }
 
     private static void printObject(int indent, Object data) {

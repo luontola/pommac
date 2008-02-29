@@ -7,34 +7,34 @@ slick:
         sources: slick.zip!/src
         javadoc: slick.zip!/javadoc
         depends:
-            - "slick.deps:lwjgl"
-            - "slick.deps:lwjgl-util-applet, optional"
-            - "slick.deps:ibxm"
-            - "slick.deps:jnlp"
-            - "slick.deps:jogg"
-            - "slick.deps:jorbis"
-            - "slick.deps:tinylinepp"
+            - slick.deps:lwjgl
+            - slick.deps:lwjgl-util-applet, optional
+            - slick.deps:ibxm
+            - slick.deps:jnlp
+            - slick.deps:jogg
+            - slick.deps:jorbis
+            - slick.deps:tinylinepp
 
     # Native Libraries
 
     slick-natives-linux:
         jar:     slick.zip!/lib/natives-linux.jar
-        depends: "slick:slick"
+        depends: slick:slick
 
     slick-natives-mac:
         jar:     slick.zip!/lib/natives-mac.jar
-        depends: "slick:slick"
+        depends: slick:slick
 
     slick-natives-win32:
         jar:     slick.zip!/lib/natives-win32.jar
-        depends: "slick:slick"
+        depends: slick:slick
 
     # Examples
 
     slick-examples:
         jar:     slick.zip!/lib/slick-examples.jar
         sources: slick.zip!/tools
-        depends: "slick:slick-testdata"
+        depends: slick:slick-testdata
 
     slick-testdata:
         resources: slick.zip!/ | testdata/**
