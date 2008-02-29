@@ -94,7 +94,7 @@ public class ExpressionInterpreterSpec extends Specification<Object> {
             ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(
                     new File(workDir, "sgs-src-0.9.5.1-r3730.zip")));
             zip.putNextEntry(new ZipEntry("sgs-src-0.9.5.1-r3730/build"));
-            zip.write("build=3730".getBytes());
+            zip.write("build=153".getBytes());
             zip.close();
             return null;
         }
@@ -107,6 +107,12 @@ public class ExpressionInterpreterSpec extends Specification<Object> {
             sgs.version = "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s";
             sgs.calculateVersion(workDir);
             specify(sgs.version, does.equal("0.9.5.1"));
+        }
+
+        public void canBeReadFromFileContentsWithRegex() {
+            sgs.version = "sgs-src-*-r*.zip!/sgs-src-*-r*/build >> build=(\\d+) >> b%1$s";
+            sgs.calculateVersion(workDir);
+            specify(sgs.version, does.equal("b153"));
         }
     }
 }
