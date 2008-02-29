@@ -182,7 +182,6 @@ public class FileFormatSpec extends Specification<Object> {
                     "\n" +
                     "    slick-examples:\n" +
                     "        jar:     slick.zip!/lib/slick-examples.jar\n" +
-                    "        sources: slick.zip!/tools\n" +
                     "        depends: slick:slick-testdata\n" +
                     "\n" +
                     "    slick-testdata:\n" +
@@ -314,7 +313,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("slick-natives-linux", new String[0]);
             expected.put("slick-natives-mac", new String[0]);
             expected.put("slick-natives-win32", new String[0]);
-            expected.put("slick-examples", new String[]{"slick.zip!/tools"});
+            expected.put("slick-examples", new String[0]);
             expected.put("slick-testdata", new String[0]);
             expected.put("lwjgl", new String[0]);
             expected.put("lwjgl-util-applet", new String[0]);

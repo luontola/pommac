@@ -33,7 +33,6 @@ slick:
 
     slick-examples:
         jar:     slick.zip!/lib/slick-examples.jar
-        sources: slick.zip!/tools
         depends: slick:slick-testdata
 
     slick-testdata:
