@@ -156,34 +156,34 @@ public class FileFormatSpec extends Specification<Object> {
                     "        sources: slick.zip!/src\n" +
                     "        javadoc: slick.zip!/javadoc\n" +
                     "        depends:\n" +
-                    "            - \"slick.deps:lwjgl\"\n" +
-                    "            - \"slick.deps:lwjgl-util-applet, optional\"\n" +
-                    "            - \"slick.deps:ibxm\"\n" +
-                    "            - \"slick.deps:jnlp\"\n" +
-                    "            - \"slick.deps:jogg\"\n" +
-                    "            - \"slick.deps:jorbis\"\n" +
-                    "            - \"slick.deps:tinylinepp\"\n" +
+                    "            - slick.deps:lwjgl\n" +
+                    "            - slick.deps:lwjgl-util-applet, optional\n" +
+                    "            - slick.deps:ibxm\n" +
+                    "            - slick.deps:jnlp\n" +
+                    "            - slick.deps:jogg\n" +
+                    "            - slick.deps:jorbis\n" +
+                    "            - slick.deps:tinylinepp\n" +
                     "\n" +
                     "    # Native Libraries\n" +
                     "\n" +
                     "    slick-natives-linux:\n" +
                     "        jar:     slick.zip!/lib/natives-linux.jar\n" +
-                    "        depends: \"slick:slick\"\n" +
+                    "        depends: slick:slick\n" +
                     "\n" +
                     "    slick-natives-mac:\n" +
                     "        jar:     slick.zip!/lib/natives-mac.jar\n" +
-                    "        depends: \"slick:slick\"\n" +
+                    "        depends: slick:slick\n" +
                     "\n" +
                     "    slick-natives-win32:\n" +
                     "        jar:     slick.zip!/lib/natives-win32.jar\n" +
-                    "        depends: \"slick:slick\"\n" +
+                    "        depends: slick:slick\n" +
                     "\n" +
                     "    # Examples\n" +
                     "\n" +
                     "    slick-examples:\n" +
                     "        jar:     slick.zip!/lib/slick-examples.jar\n" +
                     "        sources: slick.zip!/tools\n" +
-                    "        depends: \"slick:slick-testdata\"\n" +
+                    "        depends: slick:slick-testdata\n" +
                     "\n" +
                     "    slick-testdata:\n" +
                     "        resources: slick.zip!/ | testdata/**\n" +
@@ -218,7 +218,8 @@ public class FileFormatSpec extends Specification<Object> {
                     "    # Not used\n" +
                     "\n" +
                     "    jinput:\n" +
-                    "        jar:     slick.zip!/lib/jinput.jar";
+                    "        jar:     slick.zip!/lib/jinput.jar\n" +
+                    "";
             Object data = YAML.load(fileText);
             artifacts = Pommac.parse(data);
             return null;
