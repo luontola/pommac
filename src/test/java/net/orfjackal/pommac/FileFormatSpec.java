@@ -110,7 +110,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("mina-core", new String[0]);
             expected.put("slf4j-jdk14", new String[0]);
             for (Artifact artifact : artifacts) {
-                specify(artifact.sources, should.containExactly(expected.get(artifact.artifactId)));
+                specify(artifact.sources, should.containExactly((Object[]) expected.get(artifact.artifactId)));
             }
         }
 
@@ -137,7 +137,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("mina-core", new String[0]);
             expected.put("slf4j-jdk14", new String[0]);
             for (Artifact artifact : artifacts) {
-                specify(artifact.depends, should.containExactly(expected.get(artifact.artifactId)));
+                specify(artifact.depends, should.containExactly((Object[]) expected.get(artifact.artifactId)));
             }
         }
     }
@@ -303,7 +303,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("tinylinepp", new String[0]);
             expected.put("jinput", new String[0]);
             for (Artifact artifact : artifacts) {
-                specify(artifact.resources, does.containExactly(expected.get(artifact.artifactId)));
+                specify(artifact.resources, does.containExactly((Object[]) expected.get(artifact.artifactId)));
             }
         }
 
@@ -324,7 +324,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("tinylinepp", new String[0]);
             expected.put("jinput", new String[0]);
             for (Artifact artifact : artifacts) {
-                specify(artifact.sources, should.containExactly(expected.get(artifact.artifactId)));
+                specify(artifact.sources, should.containExactly((Object[]) expected.get(artifact.artifactId)));
             }
         }
 
@@ -373,7 +373,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("tinylinepp", new String[0]);
             expected.put("jinput", new String[0]);
             for (Artifact artifact : artifacts) {
-                specify(artifact.depends, should.containExactly(expected.get(artifact.artifactId)));
+                specify(artifact.depends, should.containExactly((Object[]) expected.get(artifact.artifactId)));
             }
         }
     }
