@@ -85,7 +85,7 @@ public class ExpressionInterpreterSpec extends Specification<Object> {
         }
     }
 
-    public class ReadingVersionNumber {
+    public class CalculatingArtifactVersionNumbers {
 
         private File workDir;
 

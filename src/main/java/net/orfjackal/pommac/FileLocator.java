@@ -50,7 +50,7 @@ public class FileLocator {
 
     private File unpackToTempDir(File archive) {
         File dir = manager.newDirectory();
-        Unpacker.unpack(archive, dir);
+        ZipUtil.unzip(archive, dir);
         return dir;
     }
 

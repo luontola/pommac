@@ -16,9 +16,9 @@ import java.util.zip.ZipOutputStream;
  */
 @SuppressWarnings({"FieldCanBeLocal"})
 @RunWith(JDaveRunner.class)
-public class UnpackerSpec extends Specification<Object> {
+public class ZipUtilSpec extends Specification<Object> {
 
-    public class UnpackingAZipArchive {
+    public class ExtractingFilesFromAZipArchive {
 
         private File workDir;
         private File outputDir;
@@ -53,7 +53,7 @@ public class UnpackerSpec extends Specification<Object> {
 
             specify(archive.exists());
             specify(outputDir.listFiles(), does.containExactly());
-            Unpacker.unpack(archive, outputDir);
+            ZipUtil.unzip(archive, outputDir);
             specify(archive.exists());
             return null;
         }

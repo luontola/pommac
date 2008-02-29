@@ -9,12 +9,12 @@ import java.util.zip.ZipFile;
  * @author Esko Luontola
  * @since 29.2.2008
  */
-public final class Unpacker {
+public final class ZipUtil {
 
-    private Unpacker() {
+    private ZipUtil() {
     }
 
-    public static void unpack(File archive, File toDir) {
+    public static void unzip(File archive, File toDir) {
         ZipFile zip = null;
         try {
             zip = new ZipFile(archive);
