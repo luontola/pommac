@@ -15,7 +15,9 @@ public class ParseResults {
 
     public void processTags() {
         if (defaultVersion != null) {
-            assert !defaultVersion.contains("${default.version}");
+            if (defaultVersion.contains("${default.version}")) {
+                throw new IllegalArgumentException("default version may not contain ${default.version}");
+            }
             String tag = Pattern.quote("${default.version}");
             for (Artifact artifact : artifacts) {
                 if (artifact.version == null) {
