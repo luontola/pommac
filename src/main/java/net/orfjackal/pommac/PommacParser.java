@@ -10,9 +10,12 @@ import java.util.Map;
  * @since 29.2.2008
  */
 @SuppressWarnings({"unchecked"})
-public class PommacParser {
+public final class PommacParser {
 
-    public ParseResults parse(Object data) {
+    private PommacParser() {
+    }
+
+    public static ParseResults parse(Object data) {
         ParseResults results = new ParseResults();
         Map<String, Object> groups = (Map<String, Object>) data;
 
@@ -31,7 +34,7 @@ public class PommacParser {
         return results;
     }
 
-    private void parseArtifact(ParseResults results, String groupId, Object data) {
+    private static void parseArtifact(ParseResults results, String groupId, Object data) {
         Map<String, Object> artifacts = (Map<String, Object>) data;
         for (Map.Entry<String, Object> artifactEntry : artifacts.entrySet()) {
             String artifactId = artifactEntry.getKey();
@@ -50,27 +53,27 @@ public class PommacParser {
         }
     }
 
-    private String getVersion(Map<String, Object> artifactMap) {
+    private static String getVersion(Map<String, Object> artifactMap) {
         return (String) artifactMap.get("version");
     }
 
-    private String getJar(Map<String, Object> artifactMap) {
+    private static String getJar(Map<String, Object> artifactMap) {
         return (String) artifactMap.get("jar");
     }
 
-    private String[] getSources(Map<String, Object> artifactMap) {
+    private static String[] getSources(Map<String, Object> artifactMap) {
         return asArray("sources", artifactMap);
     }
 
-    private String[] getResources(Map<String, Object> artifactMap) {
+    private static String[] getResources(Map<String, Object> artifactMap) {
         return asArray("resources", artifactMap);
     }
 
-    private String getJavadoc(Map<String, Object> artifactMap) {
+    private static String getJavadoc(Map<String, Object> artifactMap) {
         return (String) artifactMap.get("javadoc");
     }
 
-    private String[] getDepends(Map<String, Object> artifactMap) {
+    private static String[] getDepends(Map<String, Object> artifactMap) {
         return asArray("depends", artifactMap);
     }
 

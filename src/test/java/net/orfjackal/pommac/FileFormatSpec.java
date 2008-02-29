@@ -61,7 +61,7 @@ public class FileFormatSpec extends Specification<Object> {
                     "        mvn:     sgs-${default.version}-*.zip!/slf4j-*/slf4j-jdk14-*.jar\n" +
                     "";
             Object data = YAML.load(fileText);
-            results = new PommacParser().parse(data);
+            results = PommacParser.parse(data);
             return null;
         }
 
@@ -227,7 +227,7 @@ public class FileFormatSpec extends Specification<Object> {
                     "        jar:     slick.zip!/lib/jinput.jar\n" +
                     "";
             Object data = YAML.load(fileText);
-            results = new PommacParser().parse(data);
+            results = PommacParser.parse(data);
             return null;
         }
 
