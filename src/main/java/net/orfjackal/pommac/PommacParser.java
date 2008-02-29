@@ -40,7 +40,7 @@ public class PommacParser {
             Artifact artifact = new Artifact();
             artifact.groupId = groupId;
             artifact.artifactId = artifactId;
-            artifact.version = getVersion(value, results.defaultVersion);
+            artifact.version = getVersion(value);
             artifact.jar = getJar(value);
             artifact.sources = getSources(value);
             artifact.resources = getResources(value);
@@ -50,12 +50,8 @@ public class PommacParser {
         }
     }
 
-    private String getVersion(Map<String, Object> artifactMap, String defaultVersion) {
-        String version = (String) artifactMap.get("version");
-        if (version == null && !artifactMap.containsKey("mvn")) {
-            version = defaultVersion;
-        }
-        return version;
+    private String getVersion(Map<String, Object> artifactMap) {
+        return (String) artifactMap.get("version");
     }
 
     private String getJar(Map<String, Object> artifactMap) {

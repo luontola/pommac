@@ -87,8 +87,8 @@ public class FileFormatSpec extends Specification<Object> {
 
         public void willReadVersion() {
             Map<String, String> expected = new HashMap<String, String>();
-            expected.put("sgs", "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s");
-            expected.put("sgs-client", "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s");
+            expected.put("sgs", null);
+            expected.put("sgs-client", null);
             expected.put("berkeleydb", "sgs-${default.version}-*.zip!/bdb-* | bdb-([\\d\\.]+) >> %1$s");
             for (Artifact artifact : results.artifacts) {
                 specify(artifact.version, does.equal(expected.get(artifact.artifactId)));
@@ -255,22 +255,21 @@ public class FileFormatSpec extends Specification<Object> {
         }
 
         public void willReadVersion() {
-            String slickVersion = "slick.zip!/lib/slick.jar!/version >> build=(\\d+) >> b%1$d";
             Map<String, String> expected = new HashMap<String, String>();
-            expected.put("slick", slickVersion);
-            expected.put("slick-natives-linux", slickVersion);
-            expected.put("slick-natives-mac", slickVersion);
-            expected.put("slick-natives-win32", slickVersion);
-            expected.put("slick-examples", slickVersion);
-            expected.put("slick-testdata", slickVersion);
-            expected.put("lwjgl", slickVersion);
-            expected.put("lwjgl-util-applet", slickVersion);
-            expected.put("ibxm", slickVersion);
-            expected.put("jnlp", slickVersion);
+            expected.put("slick", null);
+            expected.put("slick-natives-linux", null);
+            expected.put("slick-natives-mac", null);
+            expected.put("slick-natives-win32", null);
+            expected.put("slick-examples", null);
+            expected.put("slick-testdata", null);
+            expected.put("lwjgl", null);
+            expected.put("lwjgl-util-applet", null);
+            expected.put("ibxm", null);
+            expected.put("jnlp", null);
             expected.put("jogg", "slick.zip!/lib/jogg-*.jar | jogg-([\\d\\.]+)\\.jar >> %1$s");
             expected.put("jorbis", "slick.zip!/lib/jorbis-*.jar | jorbis-([\\d\\.]+)\\.jar >> %1$s");
-            expected.put("tinylinepp", slickVersion);
-            expected.put("jinput", slickVersion);
+            expected.put("tinylinepp", null);
+            expected.put("jinput", null);
             for (Artifact artifact : results.artifacts) {
                 specify(artifact.version, does.equal(expected.get(artifact.artifactId)));
             }

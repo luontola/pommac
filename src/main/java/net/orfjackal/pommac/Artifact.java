@@ -11,8 +11,27 @@ public class Artifact {
     public String version;
 
     public String jar;
-    public String[] sources;
-    public String[] resources;
+    public String[] sources = new String[0];
+    public String[] resources = new String[0];
     public String javadoc;
-    public String[] depends;
+
+    public String[] depends = new String[0];
+
+    public void replaceAll(String find, String replace) {
+        if (version != null) {
+            version = version.replaceAll(find, replace);
+        }
+        if (jar != null) {
+            jar = jar.replaceAll(find, replace);
+        }
+        for (int i = 0; i < sources.length; i++) {
+            sources[i] = sources[i].replaceAll(find, replace);
+        }
+        for (int i = 0; i < resources.length; i++) {
+            resources[i] = resources[i].replaceAll(find, replace);
+        }
+        if (javadoc != null) {
+            javadoc = javadoc.replaceAll(find, replace);
+        }
+    }
 }
