@@ -47,11 +47,12 @@ public class Artifact {
 
         String pathQuery = words.get(0);
         String op1 = words.get(1);
-        assert op1.equals("|");
         String regex = words.get(2);
         String op2 = words.get(3);
-        assert op2.equals(">>");
         String format = words.get(4);
+
+        assert op1.equals("|");
+        assert op2.equals(">>");
 
         System.out.println(pathQuery);
         System.out.println(op1);
