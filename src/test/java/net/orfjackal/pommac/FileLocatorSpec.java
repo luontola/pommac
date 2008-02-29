@@ -13,9 +13,9 @@ import java.io.IOException;
  * @since 29.2.2008
  */
 @RunWith(JDaveRunner.class)
-public class MatcherExpressionsSpec extends Specification<Object> {
+public class FileLocatorSpec extends Specification<Object> {
 
-    public class FileLocator {
+    public class WhenQueryingForPlainFiles {
 
         private File workDir;
         private File aabbcc;
@@ -35,24 +35,24 @@ public class MatcherExpressionsSpec extends Specification<Object> {
         }
 
         public void findsWithAnExactName() {
-            File found = PommacPostProcessor.findFile(workDir, "aabbcc.txt");
+            File found = FileLocator.findFile(workDir, "aabbcc.txt");
             specify(found, does.equal(aabbcc));
         }
 
         public void findsWithTheStarWildcard() {
-            File found = PommacPostProcessor.findFile(workDir, "aabb*.txt");
+            File found = FileLocator.findFile(workDir, "aabb*.txt");
             specify(found, does.equal(aabbcc));
         }
 
         public void findsWithTheQuestionMarkWildcard() {
-            File found = PommacPostProcessor.findFile(workDir, "aabb?c.txt");
+            File found = FileLocator.findFile(workDir, "aabb?c.txt");
             specify(found, does.equal(aabbcc));
         }
 
         public void escapesPossibleRegexCharactersFromTheQueryString() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    PommacPostProcessor.findFile(workDir, "aabb...txt");
+                    FileLocator.findFile(workDir, "aabb...txt");
                 }
             }, does.raise(MatchingFileNotFoundException.class, "No file matching: aabb...txt"));
         }
@@ -60,7 +60,7 @@ public class MatcherExpressionsSpec extends Specification<Object> {
         public void failsIfFileDoesDoNotExist() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    PommacPostProcessor.findFile(workDir, "abc.txt");
+                    FileLocator.findFile(workDir, "abc.txt");
                 }
             }, does.raise(MatchingFileNotFoundException.class, "No file matching: abc.txt"));
         }
@@ -68,7 +68,7 @@ public class MatcherExpressionsSpec extends Specification<Object> {
         public void failsIfThereIsMoreThanOneMatch() {
             specify(new Block() {
                 public void run() throws Throwable {
-                    PommacPostProcessor.findFile(workDir, "aa*.txt");
+                    FileLocator.findFile(workDir, "aa*.txt");
                 }
             }, does.raise(UnambiguousQueryException.class, "Unambiguous query: aa*.txt\n" +
                     "More than one match: [" + aabbcc + ", " + aabccd + "]"));

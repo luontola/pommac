@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * @author Esko Luontola
  * @since 29.2.2008
  */
-public class PommacPostProcessor {
+public class FileLocator {
 
     public static File findFile(File dir, String query) {
         final Pattern pattern = Pattern.compile(toRegex(query));
