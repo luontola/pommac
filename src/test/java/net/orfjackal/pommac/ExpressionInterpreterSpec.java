@@ -4,6 +4,12 @@ import jdave.Specification;
 import jdave.junit4.JDaveRunner;
 import org.junit.runner.RunWith;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 /**
  * @author Esko Luontola
  * @since 29.2.2008
@@ -11,31 +17,36 @@ import org.junit.runner.RunWith;
 @RunWith(JDaveRunner.class)
 public class ExpressionInterpreterSpec extends Specification<Object> {
 
+    private ParseResults results;
+    private Artifact sgs;
+    private Artifact berkeleydb;
+
+    private void initTestData() {
+        sgs = new Artifact();
+        sgs.groupId = "com.sun.sgs";
+        sgs.artifactId = "sgs";
+        sgs.jar = "sgs-${default.version}-*.zip!/sgs-*/lib/sgs.jar";
+        sgs.sources = new String[]{"sgs-src-${default.version}-*.zip!/sgs-src-*/src/server/j2se"};
+        sgs.resources = new String[]{"sgs-src-${default.version}-*.zip!/sgs-src-*/resources"};
+        sgs.javadoc = "sgs-${default.version}-*.zip!/sgs-*/doc/sgs-api";
+
+        berkeleydb = new Artifact();
+        berkeleydb.groupId = "berkeleydb";
+        berkeleydb.artifactId = "berkeleydb";
+        berkeleydb.jar = "sgs-${default.version}-*.zip!/bdb-*/db.jar";
+        berkeleydb.version = "sgs-${default.version}-*.zip!/bdb-* | bdb-([\\d\\.]+) >> %1$s";
+
+        results = new ParseResults();
+        results.defaultVersion = "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s";
+        results.artifacts.add(sgs);
+        results.artifacts.add(berkeleydb);
+    }
+
     public class ProcessingReplacementTags {
 
-        private ParseResults results;
-        private Artifact sgs;
-        private Artifact berkeleydb;
-
         public Object create() {
-            sgs = new Artifact();
-            sgs.groupId = "com.sun.sgs";
-            sgs.artifactId = "sgs";
-            sgs.jar = "sgs-${default.version}-*.zip!/sgs-*/lib/sgs.jar";
-            sgs.sources = new String[]{"sgs-src-${default.version}-*.zip!/sgs-src-*/src/server/j2se"};
-            sgs.resources = new String[]{"sgs-src-${default.version}-*.zip!/sgs-src-*/resources"};
-            sgs.javadoc = "sgs-${default.version}-*.zip!/sgs-*/doc/sgs-api";
-
-            berkeleydb = new Artifact();
-            berkeleydb.groupId = "berkeleydb";
-            berkeleydb.artifactId = "berkeleydb";
-            berkeleydb.jar = "sgs-${default.version}-*.zip!/bdb-*/db.jar";
-            berkeleydb.version = "sgs-${default.version}-*.zip!/bdb-* | bdb-([\\d\\.]+) >> %1$s";
-
-            results = new ParseResults();
+            initTestData();
             results.defaultVersion = "0.9.5";
-            results.artifacts.add(sgs);
-            results.artifacts.add(berkeleydb);
             return null;
         }
 
@@ -70,6 +81,32 @@ public class ExpressionInterpreterSpec extends Specification<Object> {
             results.defaultVersion = null;
             results.processTags();
             specify(sgs.jar, does.equal("sgs-${default.version}-*.zip!/sgs-*/lib/sgs.jar"));
+        }
+    }
+
+    public class ReadingVersionNumber {
+
+        private File workDir;
+
+        public Object create() throws IOException {
+            initTestData();
+            workDir = TestUtil.createWorkDir();
+            ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(
+                    new File(workDir, "sgs-src-0.9.5.1-r3730.zip")));
+            zip.putNextEntry(new ZipEntry("sgs-src-0.9.5.1-r3730/build"));
+            zip.write("build=3730".getBytes());
+            zip.close();
+            return null;
+        }
+
+        public void destroy() {
+            TestUtil.deleteWorkDir();
+        }
+
+        public void canBeReadFromFileNameWithRegex() {
+            sgs.version = "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s";
+            sgs.calculateVersion(workDir);
+            specify(sgs.version, does.equal("0.9.5.1"));
         }
     }
 }
