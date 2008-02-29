@@ -12,7 +12,6 @@ import java.util.Map;
 @SuppressWarnings({"unchecked"})
 public class PommacParser {
 
-
     public ParseResults parse(Object data) {
         ParseResults results = new ParseResults();
         Map<String, Object> groups = (Map<String, Object>) data;
