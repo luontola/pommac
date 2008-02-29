@@ -10,14 +10,30 @@ import java.util.regex.Pattern;
  */
 public class FileLocator {
 
+    private static final WorkDirectoryManager manager = new WorkDirectoryManager();
+
     public static File findFile(File dir, String query) {
         String[] parts = query.split("/");
         assert parts.length > 0;
         File current = dir;
         for (String part : parts) {
+            boolean expectArchive = false;
+            if (part.endsWith("!")) {
+                expectArchive = true;
+                part = part.substring(0, part.length() - 1);
+            }
             current = findFile(current, part, query);
+            if (expectArchive) {
+                current = unpackToTempDir(current);
+            }
         }
         return current;
+    }
+
+    private static File unpackToTempDir(File archive) {
+        File dir = manager.newDirectory();
+        Unpacker.unpack(archive, dir);
+        return dir;
     }
 
     private static File findFile(File dir, String nameQuery, String fullQuery) {

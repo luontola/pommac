@@ -6,12 +6,16 @@ import jdave.junit4.JDaveRunner;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author Esko Luontola
  * @since 29.2.2008
  */
+@SuppressWarnings({"FieldCanBeLocal"})
 @RunWith(JDaveRunner.class)
 public class FileLocatorSpec extends Specification<Object> {
 
@@ -83,7 +87,7 @@ public class FileLocatorSpec extends Specification<Object> {
         }
     }
 
-    public class WhenQueryingForDirectories {
+    public class WhenQueryingInsideDirectories {
 
         private File workDir;
         private File subDir;
@@ -110,6 +114,30 @@ public class FileLocatorSpec extends Specification<Object> {
         public void findsAFileFromADirectory() {
             File found = FileLocator.findFile(workDir, "subdir/aabbcc.txt");
             specify(found, does.equal(aabbcc));
+        }
+    }
+
+    public class WhenQueryingInsideZipArchives {
+
+        private File workDir;
+        private File archive;
+
+        public Object create() throws IOException {
+            workDir = TestUtil.createWorkDir();
+            archive = new File(workDir, "archive.zip");
+            ZipOutputStream zipper = new ZipOutputStream(new FileOutputStream(archive));
+            zipper.putNextEntry(new ZipEntry("aabbcc.txt"));
+            zipper.close();
+            return null;
+        }
+
+        public void destroy() {
+            TestUtil.deleteWorkDir();
+        }
+
+        public void findsAFileFromAZipArchive() {
+            File found = FileLocator.findFile(workDir, "archive.zip!/aabbcc.txt");
+            specify(found.getName(), does.equal("aabbcc.txt"));
         }
     }
 }

@@ -16,6 +16,7 @@ import java.util.zip.ZipOutputStream;
  * @author Esko Luontola
  * @since 29.2.2008
  */
+@SuppressWarnings({"FieldCanBeLocal"})
 @RunWith(JDaveRunner.class)
 public class UnpackerSpec extends Specification<Object> {
 

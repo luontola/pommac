@@ -16,6 +16,10 @@ public class WorkDirectoryManager {
     private final String prefix = "temp_" + System.currentTimeMillis() + "_";
     private final File parentDir;
 
+    public WorkDirectoryManager() {
+        this(new File("").getAbsoluteFile());
+    }
+
     public WorkDirectoryManager(File parentDir) {
         assert parentDir.isDirectory();
         this.parentDir = parentDir;
