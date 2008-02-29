@@ -29,7 +29,7 @@ public final class Unpacker {
         } catch (IOException e) {
             throw new RuntimeException("Unable to unpack: " + archive, e);
         } finally {
-            close(zip);
+            FileUtil.close(zip);
         }
     }
 
@@ -45,39 +45,6 @@ public final class Unpacker {
         }
         InputStream in = zip.getInputStream(zipEntry);
         OutputStream out = new FileOutputStream(file);
-        copy(in, out);
-    }
-
-    private static void copy(InputStream from, OutputStream to) throws IOException {
-        try {
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = from.read(buffer)) >= 0) {
-                to.write(buffer, 0, len);
-            }
-        } finally {
-            close(from);
-            close(to);
-        }
-    }
-
-    private static void close(Closeable closeable) {
-        try {
-            if (closeable != null) {
-                closeable.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void close(ZipFile zip) {
-        try {
-            if (zip != null) {
-                zip.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileUtil.copy(in, out);
     }
 }

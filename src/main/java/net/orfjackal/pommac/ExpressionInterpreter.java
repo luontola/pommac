@@ -1,7 +1,6 @@
 package net.orfjackal.pommac;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -54,23 +53,9 @@ public final class ExpressionInterpreter {
         if (op.equals("|")) {
             return file.getName();
         } else if (op.equals(">>")) {
-            return contentsOf(file);
+            return FileUtil.contentsOf(file);
         } else {
             throw new IllegalArgumentException("Unknown operator: " + op);
-        }
-    }
-
-    private static String contentsOf(File file) {
-        try {
-            Scanner in = new Scanner(file);
-            StringBuilder sb = new StringBuilder();
-            while (in.hasNextLine()) {
-                sb.append(in.nextLine()).append("\n");
-            }
-            return sb.toString();
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 

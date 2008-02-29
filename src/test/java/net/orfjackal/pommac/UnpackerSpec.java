@@ -5,10 +5,8 @@ import jdave.junit4.JDaveRunner;
 import org.junit.runner.RunWith;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -69,31 +67,18 @@ public class UnpackerSpec extends Specification<Object> {
             specify(unpackedEmptyDir.isDirectory());
         }
 
-        public void willUnpackFiles() throws FileNotFoundException {
+        public void willUnpackFiles() {
             specify(unpackedFileA.exists());
             specify(unpackedFileA.isFile());
-            specify(contentsOf(unpackedFileA), does.equal("alpha"));
+            specify(FileUtil.contentsOf(unpackedFileA), does.equal("alpha"));
         }
 
-        public void willUnpackFilesInDirectories() throws FileNotFoundException {
+        public void willUnpackFilesInDirectories() {
             specify(unpackedDir.exists());
             specify(unpackedDir.isDirectory());
             specify(unpackedFileB.exists());
             specify(unpackedFileB.isFile());
-            specify(contentsOf(unpackedFileB), does.equal("beta"));
-        }
-    }
-
-    private static String contentsOf(File file) throws FileNotFoundException {
-        Scanner in = new Scanner(file);
-        try {
-            if (in.hasNextLine()) {
-                return in.nextLine();
-            } else {
-                return "";
-            }
-        } finally {
-            in.close();
+            specify(FileUtil.contentsOf(unpackedFileB), does.equal("beta"));
         }
     }
 }
