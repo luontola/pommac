@@ -12,6 +12,7 @@ public class Artifact {
 
     public String jar;
     public String[] sources;
+    public String[] resources;
     public String javadoc;
     public String[] depends;
 }

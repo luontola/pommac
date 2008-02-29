@@ -58,7 +58,7 @@ public class FileFormatSpec extends Specification<Object> {
                     "        mvn:     sgs-${version}-*.zip!/slf4j-*/slf4j-jdk14-*.jar\n" +
                     "";
             Object data = YAML.load(fileText);
-            artifacts = Pommac.parse(data);
+            artifacts = PommacFileFormat.parse(data);
             return null;
         }
 
@@ -221,7 +221,7 @@ public class FileFormatSpec extends Specification<Object> {
                     "        jar:     slick.zip!/lib/jinput.jar\n" +
                     "";
             Object data = YAML.load(fileText);
-            artifacts = Pommac.parse(data);
+            artifacts = PommacFileFormat.parse(data);
             return null;
         }
 
@@ -232,5 +232,99 @@ public class FileFormatSpec extends Specification<Object> {
             }
             specify(groupIds, does.containExactly("slick", "slick.deps"));
         }
+
+        public void willReadArtifactId() {
+            Set<String> artifactIds = new HashSet<String>();
+            for (Artifact artifact : artifacts) {
+                artifactIds.add(artifact.artifactId);
+            }
+            specify(artifactIds, does.containExactly(
+                    "slick", "slick-natives-linux", "slick-natives-mac", "slick-natives-win32",
+                    "slick-examples", "slick-testdata", "lwjgl", "lwjgl-util-applet", "ibxm",
+                    "jnlp", "jogg", "jorbis", "tinylinepp", "jinput"));
+        }
+
+        public void willReadVersion() {
+            String slickVersion = "slick.zip!/lib/slick.jar!/version >> build=(\\d+) >> b%1$d";
+            Map<String, String> expected = new HashMap<String, String>();
+            expected.put("slick", slickVersion);
+            expected.put("slick-natives-linux", slickVersion);
+            expected.put("slick-natives-mac", slickVersion);
+            expected.put("slick-natives-win32", slickVersion);
+            expected.put("slick-examples", slickVersion);
+            expected.put("slick-testdata", slickVersion);
+            expected.put("lwjgl", slickVersion);
+            expected.put("lwjgl-util-applet", slickVersion);
+            expected.put("ibxm", slickVersion);
+            expected.put("jnlp", slickVersion);
+            expected.put("jogg", "slick.zip!/lib/jogg-*.jar | jogg-(.+)\\.jar >> %1$s");
+            expected.put("jorbis", "slick.zip!/lib/jorbis-*.jar | jorbis-(.+)\\.jar >> %1$s");
+            expected.put("tinylinepp", slickVersion);
+            expected.put("jinput", slickVersion);
+            for (Artifact artifact : artifacts) {
+                specify(artifact.version, does.equal(expected.get(artifact.artifactId)));
+            }
+        }
+
+        public void willReadJar() {
+            Map<String, String> expected = new HashMap<String, String>();
+            expected.put("slick", "slick.zip!/lib/slick.jar");
+            expected.put("slick-natives-linux", "slick.zip!/lib/natives-linux.jar");
+            expected.put("slick-natives-mac", "slick.zip!/lib/natives-mac.jar");
+            expected.put("slick-natives-win32", "slick.zip!/lib/natives-win32.jar");
+            expected.put("slick-examples", "slick.zip!/lib/slick-examples.jar");
+            expected.put("slick-testdata", null);
+            expected.put("lwjgl", "slick.zip!/lib/lwjgl.jar");
+            expected.put("lwjgl-util-applet", "slick.zip!/applet/lwjgl_util_applet.jar");
+            expected.put("ibxm", "slick.zip!/lib/ibxm.jar");
+            expected.put("jnlp", "slick.zip!/lib/jnlp.jar");
+            expected.put("jogg", "slick.zip!/lib/jogg-*.jar");
+            expected.put("jorbis", "slick.zip!/lib/jorbis-*.jar");
+            expected.put("tinylinepp", "slick.zip!/lib/tinylinepp.jar");
+            expected.put("jinput", "slick.zip!/lib/jinput.jar");
+            for (Artifact artifact : artifacts) {
+                specify(artifact.jar, does.equal(expected.get(artifact.artifactId)));
+            }
+        }
+
+        public void willReadResources() {
+            Map<String, String[]> expected = new HashMap<String, String[]>();
+            expected.put("slick", new String[0]);
+            expected.put("slick-natives-linux", new String[0]);
+            expected.put("slick-natives-mac", new String[0]);
+            expected.put("slick-natives-win32", new String[0]);
+            expected.put("slick-examples", new String[0]);
+            expected.put("slick-testdata", new String[]{"slick.zip!/ | testdata/**"});
+            expected.put("lwjgl", new String[0]);
+            expected.put("lwjgl-util-applet", new String[0]);
+            expected.put("ibxm", new String[0]);
+            expected.put("jnlp", new String[0]);
+            expected.put("jogg", new String[0]);
+            expected.put("jorbis", new String[0]);
+            expected.put("tinylinepp", new String[0]);
+            expected.put("jinput", new String[0]);
+            for (Artifact artifact : artifacts) {
+                specify(artifact.resources, does.containExactly(expected.get(artifact.artifactId)));
+            }
+        }
+
+        /*
+           expected.put("slick", "");
+           expected.put("slick-natives-linux", "");
+           expected.put("slick-natives-mac", "");
+           expected.put("slick-natives-win32", "");
+           expected.put("slick-examples", "");
+           expected.put("slick-testdata", "");
+           expected.put("lwjgl", "");
+           expected.put("lwjgl-util-applet", "");
+           expected.put("ibxm", "");
+           expected.put("jnlp", "");
+           expected.put("jogg", "");
+           expected.put("jorbis", "");
+           expected.put("tinylinepp", "");
+           expected.put("jinput", "");
+
+        */
+
     }
 }

@@ -7,7 +7,7 @@ import java.util.*;
  * @since 29.2.2008
  */
 @SuppressWarnings({"unchecked"})
-public class Pommac {
+public class PommacFileFormat {
 
     private static String defaultVersion;
 
@@ -42,6 +42,7 @@ public class Pommac {
             artifact.version = getVersion(value);
             artifact.jar = getJar(value);
             artifact.sources = getSources(value);
+            artifact.resources = getResources(value);
             artifact.javadoc = getJavadoc(value);
             artifact.depends = getDepends(value);
             results.add(artifact);
@@ -62,6 +63,10 @@ public class Pommac {
 
     private static String[] getSources(Map<String, Object> artifactMap) {
         return asArray("sources", artifactMap);
+    }
+
+    private static String[] getResources(Map<String, Object> artifactMap) {
+        return asArray("resources", artifactMap);
     }
 
     private static String getJavadoc(Map<String, Object> artifactMap) {
