@@ -10,9 +10,13 @@ import java.util.regex.Pattern;
  */
 public class FileLocator {
 
-    private static final WorkDirectoryManager manager = new WorkDirectoryManager();
+    private final WorkDirectoryManager manager = new WorkDirectoryManager();
 
-    public static File findFile(File dir, String query) {
+    public void dispose() {
+        manager.dispose();
+    }
+
+    public File findFile(File dir, String query) {
         String[] parts = query.split("/");
         assert parts.length > 0;
         File current = dir;
@@ -30,7 +34,7 @@ public class FileLocator {
         return current;
     }
 
-    private static File unpackToTempDir(File archive) {
+    private File unpackToTempDir(File archive) {
         File dir = manager.newDirectory();
         Unpacker.unpack(archive, dir);
         return dir;
