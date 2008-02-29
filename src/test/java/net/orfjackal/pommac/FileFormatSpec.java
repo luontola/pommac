@@ -5,7 +5,10 @@ import jdave.junit4.JDaveRunner;
 import org.junit.runner.RunWith;
 import org.jvyaml.YAML;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Esko Luontola
@@ -16,55 +19,59 @@ public class FileFormatSpec extends Specification<Object> {
 
     public class ReadingSgsExample {
 
-        private List<Artifact> artifacts;
+        private ParseResults results;
 
         public Object create() {
             String fileText = "" +
-                    "version: sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s\n" +
+                    "default.version: sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s\n" +
                     "\n" +
                     "com.sun.sgs:\n" +
                     "    sgs:\n" +
-                    "        jar:     sgs-${version}-*.zip!/sgs-*/lib/sgs.jar\n" +
-                    "        javadoc: sgs-${version}-*.zip!/sgs-*/doc/sgs-api\n" +
+                    "        jar:     sgs-${default.version}-*.zip!/sgs-*/lib/sgs.jar\n" +
+                    "        javadoc: sgs-${default.version}-*.zip!/sgs-*/doc/sgs-api\n" +
                     "        sources:\n" +
-                    "            - sgs-src-${version}-*.zip!/sgs-src-*/src/server/j2se\n" +
-                    "            - sgs-src-${version}-*.zip!/sgs-src-*/src/shared/j2se\n" +
+                    "            - sgs-src-${default.version}-*.zip!/sgs-src-*/src/server/j2se\n" +
+                    "            - sgs-src-${default.version}-*.zip!/sgs-src-*/src/shared/j2se\n" +
                     "        depends:\n" +
                     "            - berkeleydb:berkeleydb\n" +
                     "            - org.apache.mina:mina-core\n" +
                     "            - org.slf4j:slf4j-jdk14\n" +
                     "\n" +
                     "    sgs-client:\n" +
-                    "        jar:     sgs-client-${version}-*.zip!/sgs-client-*/lib/sgs-client.jar\n" +
-                    "        javadoc: sgs-client-${version}-*.zip!/sgs-client-*/doc/sgs-client-api\n" +
+                    "        jar:     sgs-client-${default.version}-*.zip!/sgs-client-*/lib/sgs-client.jar\n" +
+                    "        javadoc: sgs-client-${default.version}-*.zip!/sgs-client-*/doc/sgs-client-api\n" +
                     "        sources:\n" +
-                    "            - sgs-client-src-${version}-*.zip!/sgs-client-src-*/src/client/j2se\n" +
-                    "            - sgs-client-src-${version}-*.zip!/sgs-client-src-*/src/shared/j2se\n" +
+                    "            - sgs-client-src-${default.version}-*.zip!/sgs-client-src-*/src/client/j2se\n" +
+                    "            - sgs-client-src-${default.version}-*.zip!/sgs-client-src-*/src/shared/j2se\n" +
                     "        depends:\n" +
                     "            - org.apache.mina:mina-core\n" +
                     "            - org.slf4j:slf4j-jdk14\n" +
                     "\n" +
                     "berkeleydb:\n" +
                     "    berkeleydb:\n" +
-                    "        jar:     sgs-${version}-*.zip!/bdb-*/db.jar\n" +
-                    "        version: sgs-${version}-*.zip!/bdb-* | bdb-([\\d\\.]+) >> %1$s\n" +
+                    "        jar:     sgs-${default.version}-*.zip!/bdb-*/db.jar\n" +
+                    "        version: sgs-${default.version}-*.zip!/bdb-* | bdb-([\\d\\.]+) >> %1$s\n" +
                     "\n" +
                     "org.apache.mina:\n" +
                     "    mina-core:\n" +
-                    "        mvn:     sgs-${version}-*.zip!/mina-*/mina-core-*.jar\n" +
+                    "        mvn:     sgs-${default.version}-*.zip!/mina-*/mina-core-*.jar\n" +
                     "\n" +
                     "org.slf4j:\n" +
                     "    slf4j-jdk14:\n" +
-                    "        mvn:     sgs-${version}-*.zip!/slf4j-*/slf4j-jdk14-*.jar\n" +
+                    "        mvn:     sgs-${default.version}-*.zip!/slf4j-*/slf4j-jdk14-*.jar\n" +
                     "";
             Object data = YAML.load(fileText);
-            artifacts = new PommacParser().parse(data);
+            results = new PommacParser().parse(data);
             return null;
+        }
+
+        public void willReadDefaultVersion() {
+            specify(results.defaultVersion, does.equal("sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s"));
         }
 
         public void willReadGroupId() {
             Set<String> groupIds = new HashSet<String>();
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 groupIds.add(artifact.groupId);
             }
             specify(groupIds, does.containExactly("com.sun.sgs", "berkeleydb", "org.apache.mina", "org.slf4j"));
@@ -72,7 +79,7 @@ public class FileFormatSpec extends Specification<Object> {
 
         public void willReadArtifactId() {
             Set<String> artifactIds = new HashSet<String>();
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 artifactIds.add(artifact.artifactId);
             }
             specify(artifactIds, does.containExactly("sgs", "sgs-client", "berkeleydb", "mina-core", "slf4j-jdk14"));
@@ -82,18 +89,18 @@ public class FileFormatSpec extends Specification<Object> {
             Map<String, String> expected = new HashMap<String, String>();
             expected.put("sgs", "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s");
             expected.put("sgs-client", "sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s");
-            expected.put("berkeleydb", "sgs-${version}-*.zip!/bdb-* | bdb-([\\d\\.]+) >> %1$s");
-            for (Artifact artifact : artifacts) {
+            expected.put("berkeleydb", "sgs-${default.version}-*.zip!/bdb-* | bdb-([\\d\\.]+) >> %1$s");
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.version, does.equal(expected.get(artifact.artifactId)));
             }
         }
 
         public void willReadJar() {
             Map<String, String> expected = new HashMap<String, String>();
-            expected.put("sgs", "sgs-${version}-*.zip!/sgs-*/lib/sgs.jar");
-            expected.put("sgs-client", "sgs-client-${version}-*.zip!/sgs-client-*/lib/sgs-client.jar");
-            expected.put("berkeleydb", "sgs-${version}-*.zip!/bdb-*/db.jar");
-            for (Artifact artifact : artifacts) {
+            expected.put("sgs", "sgs-${default.version}-*.zip!/sgs-*/lib/sgs.jar");
+            expected.put("sgs-client", "sgs-client-${default.version}-*.zip!/sgs-client-*/lib/sgs-client.jar");
+            expected.put("berkeleydb", "sgs-${default.version}-*.zip!/bdb-*/db.jar");
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.jar, does.equal(expected.get(artifact.artifactId)));
             }
         }
@@ -101,25 +108,25 @@ public class FileFormatSpec extends Specification<Object> {
         public void willReadSources() {
             Map<String, String[]> expected = new HashMap<String, String[]>();
             expected.put("sgs", new String[]{
-                    "sgs-src-${version}-*.zip!/sgs-src-*/src/server/j2se",
-                    "sgs-src-${version}-*.zip!/sgs-src-*/src/shared/j2se"});
+                    "sgs-src-${default.version}-*.zip!/sgs-src-*/src/server/j2se",
+                    "sgs-src-${default.version}-*.zip!/sgs-src-*/src/shared/j2se"});
             expected.put("sgs-client", new String[]{
-                    "sgs-client-src-${version}-*.zip!/sgs-client-src-*/src/client/j2se",
-                    "sgs-client-src-${version}-*.zip!/sgs-client-src-*/src/shared/j2se"});
+                    "sgs-client-src-${default.version}-*.zip!/sgs-client-src-*/src/client/j2se",
+                    "sgs-client-src-${default.version}-*.zip!/sgs-client-src-*/src/shared/j2se"});
             expected.put("berkeleydb", new String[0]);
             expected.put("mina-core", new String[0]);
             expected.put("slf4j-jdk14", new String[0]);
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.sources, should.containExactly((Object[]) expected.get(artifact.artifactId)));
             }
         }
 
         public void willReadJavadoc() {
             Map<String, String> expected = new HashMap<String, String>();
-            expected.put("sgs", "sgs-${version}-*.zip!/sgs-*/doc/sgs-api");
-            expected.put("sgs-client", "sgs-client-${version}-*.zip!/sgs-client-*/doc/sgs-client-api");
+            expected.put("sgs", "sgs-${default.version}-*.zip!/sgs-*/doc/sgs-api");
+            expected.put("sgs-client", "sgs-client-${default.version}-*.zip!/sgs-client-*/doc/sgs-client-api");
             expected.put("berkeleydb", null);
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.javadoc, does.equal(expected.get(artifact.artifactId)));
             }
         }
@@ -136,7 +143,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("berkeleydb", new String[0]);
             expected.put("mina-core", new String[0]);
             expected.put("slf4j-jdk14", new String[0]);
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.depends, should.containExactly((Object[]) expected.get(artifact.artifactId)));
             }
         }
@@ -144,11 +151,11 @@ public class FileFormatSpec extends Specification<Object> {
 
     public class ReadingSlickExample {
 
-        private List<Artifact> artifacts;
+        private ParseResults results;
 
         public Object create() {
             String fileText = "" +
-                    "version: slick.zip!/lib/slick.jar!/version >> build=(\\d+) >> b%1$d\n" +
+                    "default.version: slick.zip!/lib/slick.jar!/version >> build=(\\d+) >> b%1$d\n" +
                     "\n" +
                     "slick:\n" +
                     "    slick:\n" +
@@ -220,13 +227,17 @@ public class FileFormatSpec extends Specification<Object> {
                     "        jar:     slick.zip!/lib/jinput.jar\n" +
                     "";
             Object data = YAML.load(fileText);
-            artifacts = new PommacParser().parse(data);
+            results = new PommacParser().parse(data);
             return null;
+        }
+
+        public void willReadDefaultVersion() {
+            specify(results.defaultVersion, does.equal("slick.zip!/lib/slick.jar!/version >> build=(\\d+) >> b%1$d"));
         }
 
         public void willReadGroupId() {
             Set<String> groupIds = new HashSet<String>();
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 groupIds.add(artifact.groupId);
             }
             specify(groupIds, does.containExactly("slick", "slick.deps"));
@@ -234,7 +245,7 @@ public class FileFormatSpec extends Specification<Object> {
 
         public void willReadArtifactId() {
             Set<String> artifactIds = new HashSet<String>();
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 artifactIds.add(artifact.artifactId);
             }
             specify(artifactIds, does.containExactly(
@@ -260,7 +271,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("jorbis", "slick.zip!/lib/jorbis-*.jar | jorbis-([\\d\\.]+)\\.jar >> %1$s");
             expected.put("tinylinepp", slickVersion);
             expected.put("jinput", slickVersion);
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.version, does.equal(expected.get(artifact.artifactId)));
             }
         }
@@ -281,7 +292,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("jorbis", "slick.zip!/lib/jorbis-*.jar");
             expected.put("tinylinepp", "slick.zip!/lib/tinylinepp.jar");
             expected.put("jinput", "slick.zip!/lib/jinput.jar");
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.jar, does.equal(expected.get(artifact.artifactId)));
             }
         }
@@ -302,7 +313,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("jorbis", new String[0]);
             expected.put("tinylinepp", new String[0]);
             expected.put("jinput", new String[0]);
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.resources, does.containExactly((Object[]) expected.get(artifact.artifactId)));
             }
         }
@@ -323,7 +334,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("jorbis", new String[0]);
             expected.put("tinylinepp", new String[0]);
             expected.put("jinput", new String[0]);
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.sources, should.containExactly((Object[]) expected.get(artifact.artifactId)));
             }
         }
@@ -344,7 +355,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("jorbis", null);
             expected.put("tinylinepp", null);
             expected.put("jinput", null);
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.javadoc, does.equal(expected.get(artifact.artifactId)));
             }
         }
@@ -372,7 +383,7 @@ public class FileFormatSpec extends Specification<Object> {
             expected.put("jorbis", new String[0]);
             expected.put("tinylinepp", new String[0]);
             expected.put("jinput", new String[0]);
-            for (Artifact artifact : artifacts) {
+            for (Artifact artifact : results.artifacts) {
                 specify(artifact.depends, should.containExactly((Object[]) expected.get(artifact.artifactId)));
             }
         }

@@ -1,5 +1,5 @@
 
-version: slick.zip!/lib/slick.jar!/version >> build=(\d+) >> b%1$d
+default.version: slick.zip!/lib/slick.jar!/version >> build=(\d+) >> b%1$d
 
 slick:
     slick:

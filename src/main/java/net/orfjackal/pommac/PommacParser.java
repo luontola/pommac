@@ -1,6 +1,9 @@
 package net.orfjackal.pommac;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Esko Luontola
@@ -9,28 +12,27 @@ import java.util.*;
 @SuppressWarnings({"unchecked"})
 public class PommacParser {
 
-    private String defaultVersion;
 
-    public List<Artifact> parse(Object data) {
-        List<Artifact> artifacts = new ArrayList<Artifact>();
+    public ParseResults parse(Object data) {
+        ParseResults results = new ParseResults();
         Map<String, Object> groups = (Map<String, Object>) data;
 
-        if (groups.containsKey("version")) {
-            defaultVersion = (String) groups.get("version");
+        if (groups.containsKey("default.version")) {
+            results.defaultVersion = (String) groups.get("default.version");
         }
 
         for (Map.Entry<String, Object> groupEntry : groups.entrySet()) {
             String key = groupEntry.getKey();
             Object value = groupEntry.getValue();
 
-            if (!key.equals("version")) {
-                parseArtifact(artifacts, key, value);
+            if (!key.equals("default.version")) {
+                parseArtifact(results, key, value);
             }
         }
-        return artifacts;
+        return results;
     }
 
-    private void parseArtifact(List<Artifact> results, String groupId, Object data) {
+    private void parseArtifact(ParseResults results, String groupId, Object data) {
         Map<String, Object> artifacts = (Map<String, Object>) data;
         for (Map.Entry<String, Object> artifactEntry : artifacts.entrySet()) {
             String artifactId = artifactEntry.getKey();
@@ -39,17 +41,17 @@ public class PommacParser {
             Artifact artifact = new Artifact();
             artifact.groupId = groupId;
             artifact.artifactId = artifactId;
-            artifact.version = getVersion(value);
+            artifact.version = getVersion(value, results.defaultVersion);
             artifact.jar = getJar(value);
             artifact.sources = getSources(value);
             artifact.resources = getResources(value);
             artifact.javadoc = getJavadoc(value);
             artifact.depends = getDepends(value);
-            results.add(artifact);
+            results.artifacts.add(artifact);
         }
     }
 
-    private String getVersion(Map<String, Object> artifactMap) {
+    private String getVersion(Map<String, Object> artifactMap, String defaultVersion) {
         String version = (String) artifactMap.get("version");
         if (version == null && !artifactMap.containsKey("mvn")) {
             version = defaultVersion;
