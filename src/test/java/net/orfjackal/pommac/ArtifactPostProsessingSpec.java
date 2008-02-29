@@ -16,7 +16,7 @@ import java.util.zip.ZipOutputStream;
  */
 @SuppressWarnings({"FieldCanBeLocal"})
 @RunWith(JDaveRunner.class)
-public class ExpressionInterpreterSpec extends Specification<Object> {
+public class ArtifactPostProsessingSpec extends Specification<Object> {
 
     private ParseResults results;
     private Artifact sgs;
@@ -43,7 +43,7 @@ public class ExpressionInterpreterSpec extends Specification<Object> {
         results.artifacts.add(berkeleydb);
     }
 
-    public class ProcessingReplacementTags {
+    public class FilteringReplacementTags {
 
         public Object create() {
             initTestData();
@@ -85,7 +85,7 @@ public class ExpressionInterpreterSpec extends Specification<Object> {
         }
     }
 
-    public class CalculatingArtifactVersionNumbers {
+    public class CalculatingVersionNumbers {
 
         private File workDir;
 
@@ -123,7 +123,7 @@ public class ExpressionInterpreterSpec extends Specification<Object> {
         }
     }
 
-    public class LocatingFilePath {
+    public class LocatingFilePaths {
 
         private File workDir;
         private FileLocator locator;
