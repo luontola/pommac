@@ -328,23 +328,53 @@ public class FileFormatSpec extends Specification<Object> {
             }
         }
 
-        /*
-           expected.put("slick", "");
-           expected.put("slick-natives-linux", "");
-           expected.put("slick-natives-mac", "");
-           expected.put("slick-natives-win32", "");
-           expected.put("slick-examples", "");
-           expected.put("slick-testdata", "");
-           expected.put("lwjgl", "");
-           expected.put("lwjgl-util-applet", "");
-           expected.put("ibxm", "");
-           expected.put("jnlp", "");
-           expected.put("jogg", "");
-           expected.put("jorbis", "");
-           expected.put("tinylinepp", "");
-           expected.put("jinput", "");
+        public void willReadJavadoc() {
+            Map<String, String> expected = new HashMap<String, String>();
+            expected.put("slick", "slick.zip!/javadoc");
+            expected.put("slick-natives-linux", null);
+            expected.put("slick-natives-mac", null);
+            expected.put("slick-natives-win32", null);
+            expected.put("slick-examples", null);
+            expected.put("slick-testdata", null);
+            expected.put("lwjgl", null);
+            expected.put("lwjgl-util-applet", null);
+            expected.put("ibxm", null);
+            expected.put("jnlp", null);
+            expected.put("jogg", null);
+            expected.put("jorbis", null);
+            expected.put("tinylinepp", null);
+            expected.put("jinput", null);
+            for (Artifact artifact : artifacts) {
+                specify(artifact.javadoc, does.equal(expected.get(artifact.artifactId)));
+            }
+        }
 
-        */
-
+        public void willReadDependencies() {
+            Map<String, String[]> expected = new HashMap<String, String[]>();
+            expected.put("slick", new String[]{
+                    "slick.deps:lwjgl",
+                    "slick.deps:lwjgl-util-applet, optional",
+                    "slick.deps:ibxm",
+                    "slick.deps:jnlp",
+                    "slick.deps:jogg",
+                    "slick.deps:jorbis",
+                    "slick.deps:tinylinepp"});
+            expected.put("slick-natives-linux", new String[]{"slick:slick"});
+            expected.put("slick-natives-mac", new String[]{"slick:slick"});
+            expected.put("slick-natives-win32", new String[]{"slick:slick"});
+            expected.put("slick-examples", new String[]{"slick:slick-testdata"});
+            expected.put("slick-testdata", new String[0]);
+            expected.put("lwjgl", new String[0]);
+            expected.put("lwjgl-util-applet", new String[0]);
+            expected.put("ibxm", new String[0]);
+            expected.put("jnlp", new String[0]);
+            expected.put("jogg", new String[0]);
+            expected.put("jorbis", new String[0]);
+            expected.put("tinylinepp", new String[0]);
+            expected.put("jinput", new String[0]);
+            for (Artifact artifact : artifacts) {
+                specify(artifact.depends, should.containExactly(expected.get(artifact.artifactId)));
+            }
+        }
     }
 }
