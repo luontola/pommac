@@ -10,19 +10,20 @@
 
     <name>Pommac for Maven</name>
     <description>Imports non-maven libraries to a Maven repository with the help of a configuration file</description>
-    <url>http://www.orfjackal.net</url>
+    <url>http://github.com/orfjackal/pommac</url>
     <inceptionYear>2008</inceptionYear>
 
     <developers>
         <developer>
             <id>orfjackal</id>
             <name>Esko Luontola</name>
+            <url>http://www.orfjackal.net/</url>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:svn:svn://tux/orfjackal/pommac/trunk</connection>
-        <developerConnection>scm:svn:svn://tux/orfjackal/pommac/trunk</developerConnection>
+        <connection>scm:git:git://github.com/orfjackal/pommac.git</connection>
+        <url>http://github.com/orfjackal/pommac</url>
     </scm>
 
     <repositories>
