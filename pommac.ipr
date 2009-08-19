@@ -32,6 +32,15 @@
       <entry name="!?*.java" />
     </wildcardResourcePatterns>
   </component>
+  <component name="CopyrightManager" default="Apache 2.0">
+    <copyright>
+      <option name="notice" value="Copyright © 2008-&amp;#36;today.year  Esko Luontola, www.orfjackal.net&#10;&#10;Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);&#10;you may not use this file except in compliance with the License.&#10;You may obtain a copy of the License at&#10;&#10;    http://www.apache.org/licenses/LICENSE-2.0&#10;&#10;Unless required by applicable law or agreed to in writing, software&#10;distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#10;WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#10;See the License for the specific language governing permissions and&#10;limitations under the License." />
+      <option name="keyword" value="Copyright" />
+      <option name="myName" value="Apache 2.0" />
+      <option name="myLocal" value="true" />
+    </copyright>
+    <module2copyright />
+  </component>
   <component name="DependenciesAnalyzeManager">
     <option name="myForwardDirection" value="false" />
   </component>
@@ -52,6 +61,7 @@
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8" />
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
@@ -82,7 +92,7 @@
     <option name="DEBUGGING_INFO" value="true" />
     <option name="GENERATE_NO_WARNINGS" value="false" />
     <option name="DEPRECATION" value="true" />
-    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-target 1.6" />
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
   <component name="JavadocGenerationManager">
@@ -140,6 +150,13 @@
     <option name="jreName" value="1.6" />
     <option name="runMavenInBackground" value="true" />
     <option name="useMavenEmbedder" value="false" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
   </component>
   <component name="Palette2">
     <group name="Swing">
@@ -262,6 +279,9 @@
       </item>
     </group>
   </component>
+  <component name="ProjectDetails">
+    <option name="projectName" value="pommac" />
+  </component>
   <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectModuleManager">
     <modules>
@@ -273,11 +293,11 @@
       <SplitterProportionsDataImpl />
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/classes" />
   </component>
   <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="All tests" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+    <configuration default="false" name="All tests" type="JUnit" factoryName="JUnit" enabled="false" merge="false" sample_coverage="true" runner="emma">
       <module name="pommac" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -300,6 +320,19 @@
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
+      <RunnerSettings RunnerId="Profile CPU">
+        <option name="startFromMode" value="MAIN_CLASS" />
+        <option name="otherClassesToStartFrom" value="" />
+        <option name="profileNewRunnables" value="true" />
+        <option name="filteringMode" value="EXCLUDE" />
+        <option name="filterIncludeClasses" value="" />
+        <option name="filterExcludeClasses" value="java.*, javax.*,&#10;sun.*, sunw.*, com.sun.*" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Profile Memory">
+        <option name="profileAllocMode" value="ALLOC_AND_GC" />
+        <option name="profileAllocInterval" value="10" />
+        <option name="recordAllocTraces" value="false" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -307,7 +340,11 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="false" name="All tests with coverage" type="JUnit" factoryName="JUnit" enabled="true" merge="false">
+    <configuration default="false" name="All tests with coverage" type="JUnit" factoryName="JUnit" enabled="true" merge="false" per_test_coverage_enabled="false" track_test_folders="true" runner="idea">
+      <pattern>
+        <option name="PATTERN" value="net.orfjackal.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
       <module name="pommac" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -325,6 +362,19 @@
         <value defaultName="wholeProject" />
       </option>
       <envs />
+      <RunnerSettings RunnerId="Profile CPU">
+        <option name="startFromMode" value="MAIN_CLASS" />
+        <option name="otherClassesToStartFrom" value="" />
+        <option name="profileNewRunnables" value="true" />
+        <option name="filteringMode" value="EXCLUDE" />
+        <option name="filterIncludeClasses" value="" />
+        <option name="filterExcludeClasses" value="java.*, javax.*,&#10;sun.*, sunw.*, com.sun.*" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Profile Memory">
+        <option name="profileAllocMode" value="ALLOC_AND_GC" />
+        <option name="profileAllocInterval" value="10" />
+        <option name="recordAllocTraces" value="false" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method>
@@ -351,8 +401,11 @@
       <SplitterProportionsDataImpl />
     </option>
   </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="mySupportsUserInfoFilter" value="true" />
+  </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="svn" />
+    <mapping directory="" vcs="Git" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="codelockplugin.LockingPlugin">
@@ -368,160 +421,142 @@
       </value>
     </option>
   </component>
-  <component name="copyright">
-    <Base>
-      <setting name="state" value="2" />
-    </Base>
-    <LanguageOptions name="$TEMPLATE$">
-      <option name="templateOptions">
-        <value>
-          <option name="block" value="true" />
-          <option name="separateBefore" value="false" />
-          <option name="separateAfter" value="false" />
-          <option name="prefixLines" value="true" />
-          <option name="lenBefore" value="80" />
-          <option name="lenAfter" value="80" />
-          <option name="box" value="false" />
-          <option name="filler" value=" " />
-        </value>
-      </option>
-      <option name="notice" value="Copyright (c) &amp;#36;today.year, Your Corporation. All Rights Reserved." />
-      <option name="keyword" value="Copyright" />
-      <option name="fileTypeOverride" value="4" />
-      <option name="relativeBefore" value="true" />
-      <option name="addBlankAfter" value="true" />
-      <option name="fileLocation" value="1" />
-      <option name="useAlternate" value="false" />
-    </LanguageOptions>
-    <LanguageOptions name="HTML">
-      <option name="templateOptions">
-        <value>
-          <option name="block" value="true" />
-          <option name="separateBefore" value="false" />
-          <option name="separateAfter" value="false" />
-          <option name="prefixLines" value="true" />
-          <option name="lenBefore" value="80" />
-          <option name="lenAfter" value="80" />
-          <option name="box" value="false" />
-          <option name="filler" value=" " />
-        </value>
-      </option>
-      <option name="notice" value="Copyright (c) &amp;#36;today.year, Your Corporation. All Rights Reserved." />
-      <option name="keyword" value="Copyright" />
-      <option name="fileTypeOverride" value="2" />
-      <option name="relativeBefore" value="true" />
-      <option name="addBlankAfter" value="true" />
-      <option name="fileLocation" value="1" />
-      <option name="useAlternate" value="false" />
-    </LanguageOptions>
-    <LanguageOptions name="JAVA">
-      <option name="templateOptions">
-        <value>
-          <option name="block" value="true" />
-          <option name="separateBefore" value="false" />
-          <option name="separateAfter" value="false" />
-          <option name="prefixLines" value="true" />
-          <option name="lenBefore" value="80" />
-          <option name="lenAfter" value="80" />
-          <option name="box" value="false" />
-          <option name="filler" value=" " />
-        </value>
-      </option>
-      <option name="notice" value="Copyright (c) &amp;#36;today.year, Your Corporation. All Rights Reserved." />
-      <option name="keyword" value="Copyright" />
-      <option name="fileTypeOverride" value="2" />
-      <option name="relativeBefore" value="true" />
-      <option name="addBlankAfter" value="true" />
-      <option name="fileLocation" value="1" />
-      <option name="useAlternate" value="false" />
-    </LanguageOptions>
-    <LanguageOptions name="JSP">
-      <option name="templateOptions">
-        <value>
-          <option name="block" value="true" />
-          <option name="separateBefore" value="false" />
-          <option name="separateAfter" value="false" />
-          <option name="prefixLines" value="true" />
-          <option name="lenBefore" value="80" />
-          <option name="lenAfter" value="80" />
-          <option name="box" value="false" />
-          <option name="filler" value=" " />
-        </value>
-      </option>
-      <option name="notice" value="Copyright (c) &amp;#36;today.year, Your Corporation. All Rights Reserved." />
-      <option name="keyword" value="Copyright" />
-      <option name="fileTypeOverride" value="2" />
-      <option name="relativeBefore" value="true" />
-      <option name="addBlankAfter" value="true" />
-      <option name="fileLocation" value="1" />
-      <option name="useAlternate" value="false" />
-    </LanguageOptions>
-    <LanguageOptions name="JavaScript">
-      <option name="templateOptions">
-        <value>
-          <option name="block" value="true" />
-          <option name="separateBefore" value="false" />
-          <option name="separateAfter" value="false" />
-          <option name="prefixLines" value="true" />
-          <option name="lenBefore" value="80" />
-          <option name="lenAfter" value="80" />
-          <option name="box" value="false" />
-          <option name="filler" value=" " />
-        </value>
-      </option>
-      <option name="notice" value="Copyright (c) &amp;#36;today.year, Your Corporation. All Rights Reserved." />
-      <option name="keyword" value="Copyright" />
-      <option name="fileTypeOverride" value="2" />
-      <option name="relativeBefore" value="true" />
-      <option name="addBlankAfter" value="true" />
-      <option name="fileLocation" value="1" />
-      <option name="useAlternate" value="false" />
-    </LanguageOptions>
-    <LanguageOptions name="Properties">
-      <option name="templateOptions">
-        <value>
-          <option name="block" value="true" />
-          <option name="separateBefore" value="false" />
-          <option name="separateAfter" value="false" />
-          <option name="prefixLines" value="true" />
-          <option name="lenBefore" value="80" />
-          <option name="lenAfter" value="80" />
-          <option name="box" value="false" />
-          <option name="filler" value=" " />
-        </value>
-      </option>
-      <option name="notice" value="Copyright (c) &amp;#36;today.year, Your Corporation. All Rights Reserved." />
-      <option name="keyword" value="Copyright" />
-      <option name="fileTypeOverride" value="2" />
-      <option name="relativeBefore" value="true" />
-      <option name="addBlankAfter" value="true" />
-      <option name="fileLocation" value="1" />
-      <option name="useAlternate" value="false" />
-    </LanguageOptions>
-    <LanguageOptions name="XML">
-      <option name="templateOptions">
-        <value>
-          <option name="block" value="true" />
-          <option name="separateBefore" value="false" />
-          <option name="separateAfter" value="false" />
-          <option name="prefixLines" value="true" />
-          <option name="lenBefore" value="80" />
-          <option name="lenAfter" value="80" />
-          <option name="box" value="false" />
-          <option name="filler" value=" " />
-        </value>
-      </option>
-      <option name="notice" value="Copyright (c) &amp;#36;today.year, Your Corporation. All Rights Reserved." />
-      <option name="keyword" value="Copyright" />
-      <option name="fileTypeOverride" value="2" />
-      <option name="relativeBefore" value="true" />
-      <option name="addBlankAfter" value="true" />
-      <option name="fileLocation" value="1" />
-      <option name="useAlternate" value="false" />
-    </LanguageOptions>
+  <component name="libraryTable">
+    <library name="Maven: org.jvyaml:jvyaml:0.2.1">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/jvyaml/jvyaml/0.2.1/jvyaml-0.2.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/jvyaml/jvyaml/0.2.1/jvyaml-0.2.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/jvyaml/jvyaml/0.2.1/jvyaml-0.2.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.intellij:annotations:7.0.2">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/com/intellij/annotations/7.0.2/annotations-7.0.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/com/intellij/annotations/7.0.2/annotations-7.0.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/com/intellij/annotations/7.0.2/annotations-7.0.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.jdave:jdave-junit4:1.1">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-junit4/1.1/jdave-junit4-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-junit4/1.1/jdave-junit4-1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-junit4/1.1/jdave-junit4-1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.jmock:jmock:2.4.0">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/jmock/jmock/2.4.0/jmock-2.4.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/jmock/jmock/2.4.0/jmock-2.4.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/jmock/jmock/2.4.0/jmock-2.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.hamcrest:hamcrest-core:1.1">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.hamcrest:hamcrest-library:1.1">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.jmock:jmock-legacy:2.4.0">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/jmock/jmock-legacy/2.4.0/jmock-legacy-2.4.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/jmock/jmock-legacy/2.4.0/jmock-legacy-2.4.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/jmock/jmock-legacy/2.4.0/jmock-legacy-2.4.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.objenesis:objenesis:1.0">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/objenesis/objenesis/1.0/objenesis-1.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/objenesis/objenesis/1.0/objenesis-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/objenesis/objenesis/1.0/objenesis-1.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: cglib:cglib-nodep:2.1_3">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.jdave:jdave-core:1.1">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-core/1.1/jdave-core-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-core/1.1/jdave-core-1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/org/jdave/jdave-core/1.1/jdave-core-1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: junit:junit-dep:4.4">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/junit/junit-dep/4.4/junit-dep-4.4.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/junit/junit-dep/4.4/junit-dep-4.4-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/junit/junit-dep/4.4/junit-dep-4.4-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: junit:junit:4.7">
+      <CLASSES>
+        <root url="jar://$M2_REPO$/junit/junit/4.7/junit-4.7.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$M2_REPO$/junit/junit/4.7/junit-4.7-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$M2_REPO$/junit/junit/4.7/junit-4.7-sources.jar!/" />
+      </SOURCES>
+    </library>
   </component>
   <UsedPathMacros>
-    <macro name="M2_REPO" />
+    <macro name="M2_REPO" description="Path to the local Maven repository" />
   </UsedPathMacros>
 </project>
 
