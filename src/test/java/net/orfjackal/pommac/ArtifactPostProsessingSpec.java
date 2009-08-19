@@ -5,11 +5,8 @@ import jdave.junit4.JDaveRunner;
 import net.orfjackal.pommac.util.FileUtil;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.io.*;
+import java.util.zip.*;
 
 /**
  * @author Esko Luontola
@@ -19,9 +16,23 @@ import java.util.zip.ZipOutputStream;
 @RunWith(JDaveRunner.class)
 public class ArtifactPostProsessingSpec extends Specification<Object> {
 
+    private File workDir;
+    private FileLocator locator;
+
     private ParseResults results;
     private Artifact sgs;
     private Artifact berkeleydb;
+
+    public void create() {
+        workDir = TestUtil.createWorkDir();
+        locator = new FileLocator(workDir);
+        initTestData();
+    }
+
+    public void destroy() {
+        locator.dispose();
+        TestUtil.deleteWorkDir();
+    }
 
     private void initTestData() {
         sgs = new Artifact();
@@ -44,12 +55,11 @@ public class ArtifactPostProsessingSpec extends Specification<Object> {
         results.artifacts.add(berkeleydb);
     }
 
+
     public class FilteringReplacementTags {
 
-        public Object create() {
-            initTestData();
+        public void create() {
             results.defaultVersion = "0.9.5";
-            return null;
         }
 
         public void willFilterVersionFieldForDefaultVersion() {
@@ -88,21 +98,12 @@ public class ArtifactPostProsessingSpec extends Specification<Object> {
 
     public class CalculatingVersionNumbers {
 
-        private File workDir;
-
-        public Object create() throws IOException {
-            initTestData();
-            workDir = TestUtil.createWorkDir();
+        public void create() throws IOException {
             ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(
                     new File(workDir, "sgs-src-0.9.5.1-r3730.zip")));
             zip.putNextEntry(new ZipEntry("sgs-src-0.9.5.1-r3730/build"));
             zip.write("build=153".getBytes());
             zip.close();
-            return null;
-        }
-
-        public void destroy() {
-            TestUtil.deleteWorkDir();
         }
 
         public void canBeReadFromFileNameWithRegex() {
@@ -126,14 +127,7 @@ public class ArtifactPostProsessingSpec extends Specification<Object> {
 
     public class LocatingFilePaths {
 
-        private File workDir;
-        private FileLocator locator;
-
-        public Object create() throws IOException {
-            workDir = TestUtil.createWorkDir();
-            locator = new FileLocator(workDir);
-
-            initTestData();
+        public void create() throws IOException {
             sgs.jar = "sgs-src-0.9.5.1-*.zip!/sgs-*/lib/sgs.jar";
             sgs.sources = new String[]{
                     "sgs-src-0.9.5.1-*.zip!/sgs-src-*/src/server/j2se",
@@ -155,12 +149,6 @@ public class ArtifactPostProsessingSpec extends Specification<Object> {
             zip.close();
 
             sgs.locateFiles(locator);
-            return null;
-        }
-
-        public void destroy() {
-            locator.dispose();
-            TestUtil.deleteWorkDir();
         }
 
         public void willLocateJar() {

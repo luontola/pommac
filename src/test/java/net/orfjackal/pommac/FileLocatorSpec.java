@@ -1,15 +1,11 @@
 package net.orfjackal.pommac;
 
-import jdave.Block;
-import jdave.Specification;
+import jdave.*;
 import jdave.junit4.JDaveRunner;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.io.*;
+import java.util.zip.*;
 
 /**
  * @author Esko Luontola
@@ -19,26 +15,30 @@ import java.util.zip.ZipOutputStream;
 @RunWith(JDaveRunner.class)
 public class FileLocatorSpec extends Specification<FileLocator> {
 
+    private FileLocator locator;
+    private File workDir;
+
+    public void create() {
+        workDir = TestUtil.createWorkDir();
+        locator = new FileLocator();
+    }
+
+    public void destroy() {
+        locator.dispose();
+        TestUtil.deleteWorkDir();
+    }
+
+
     public class WhenQueryingForPlainFiles {
 
-        private FileLocator locator;
-        private File workDir;
         private File aabbcc;
         private File aabccd;
 
-        public FileLocator create() throws IOException {
-            workDir = TestUtil.createWorkDir();
+        public void create() throws IOException {
             aabbcc = new File(workDir, "aabbcc.txt");
             aabccd = new File(workDir, "aabccd.txt");
             specify(aabbcc.createNewFile());
             specify(aabccd.createNewFile());
-            locator = new FileLocator();
-            return locator;
-        }
-
-        public void destroy() {
-            locator.dispose();
-            TestUtil.deleteWorkDir();
         }
 
         public void findsWithAnExactName() {
@@ -92,24 +92,14 @@ public class FileLocatorSpec extends Specification<FileLocator> {
 
     public class WhenQueryingInsideDirectories {
 
-        private FileLocator locator;
-        private File workDir;
         private File subDir;
         private File aabbcc;
 
-        public FileLocator create() throws IOException {
-            workDir = TestUtil.createWorkDir();
+        public void create() throws IOException {
             subDir = new File(workDir, "subdir");
             aabbcc = new File(subDir, "aabbcc.txt");
             specify(subDir.mkdir());
             specify(aabbcc.createNewFile());
-            locator = new FileLocator();
-            return locator;
-        }
-
-        public void destroy() {
-            locator.dispose();
-            TestUtil.deleteWorkDir();
         }
 
         public void findsADirectory() {
@@ -125,23 +115,13 @@ public class FileLocatorSpec extends Specification<FileLocator> {
 
     public class WhenQueryingInsideZipArchives {
 
-        private FileLocator locator;
-        private File workDir;
         private File archive;
 
-        public FileLocator create() throws IOException {
-            workDir = TestUtil.createWorkDir();
+        public void create() throws IOException {
             archive = new File(workDir, "archive.zip");
             ZipOutputStream zipper = new ZipOutputStream(new FileOutputStream(archive));
             zipper.putNextEntry(new ZipEntry("aabbcc.txt"));
             zipper.close();
-            locator = new FileLocator();
-            return locator;
-        }
-
-        public void destroy() {
-            locator.dispose();
-            TestUtil.deleteWorkDir();
         }
 
         public void findsAFileFromAZipArchive() {

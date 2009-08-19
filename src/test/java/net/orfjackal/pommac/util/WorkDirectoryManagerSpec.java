@@ -5,8 +5,7 @@ import jdave.junit4.JDaveRunner;
 import net.orfjackal.pommac.TestUtil;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * @author Esko Luontola
@@ -15,19 +14,23 @@ import java.io.IOException;
 @RunWith(JDaveRunner.class)
 public class WorkDirectoryManagerSpec extends Specification<Object> {
 
+    private File parentDir;
+
+    public void create() {
+        parentDir = TestUtil.createWorkDir();
+    }
+
+    public void destroy() {
+        TestUtil.deleteWorkDir();
+    }
+
+
     public class CreatingAWorkDirectory {
 
         private WorkDirectoryManager manager;
-        private File parentDir;
 
-        public Object create() {
-            parentDir = TestUtil.createWorkDir();
+        public void create() {
             manager = new WorkDirectoryManager(parentDir);
-            return null;
-        }
-
-        public void destroy() {
-            TestUtil.deleteWorkDir();
         }
 
         public void atFirstThereAreNoDirectories() {

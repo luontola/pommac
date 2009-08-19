@@ -2,8 +2,7 @@ package net.orfjackal.pommac.util;
 
 import java.io.*;
 import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.util.zip.*;
 
 /**
  * @author Esko Luontola

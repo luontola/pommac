@@ -5,11 +5,8 @@ import jdave.junit4.JDaveRunner;
 import net.orfjackal.pommac.TestUtil;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.io.*;
+import java.util.zip.*;
 
 /**
  * @author Esko Luontola
@@ -19,9 +16,19 @@ import java.util.zip.ZipOutputStream;
 @RunWith(JDaveRunner.class)
 public class ZipUtilSpec extends Specification<Object> {
 
+    private File workDir;
+
+    public void create() {
+        workDir = TestUtil.createWorkDir();
+    }
+
+    public void destroy() {
+        TestUtil.deleteWorkDir();
+    }
+
+
     public class ExtractingFilesFromAZipArchive {
 
-        private File workDir;
         private File outputDir;
         private File archive;
 
@@ -30,8 +37,7 @@ public class ZipUtilSpec extends Specification<Object> {
         private File unpackedDir;
         private File unpackedFileB;
 
-        public Object create() throws IOException {
-            workDir = TestUtil.createWorkDir();
+        public void create() throws IOException {
             archive = new File(workDir, "archive.zip");
 
             outputDir = new File(workDir, "output");
@@ -56,11 +62,6 @@ public class ZipUtilSpec extends Specification<Object> {
             specify(outputDir.listFiles(), does.containExactly());
             ZipUtil.unzip(archive, outputDir);
             specify(archive.exists());
-            return null;
-        }
-
-        public void destroy() {
-            TestUtil.deleteWorkDir();
         }
 
         public void willUnpackDirectories() {

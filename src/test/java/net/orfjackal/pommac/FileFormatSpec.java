@@ -5,10 +5,7 @@ import jdave.junit4.JDaveRunner;
 import org.junit.runner.RunWith;
 import org.jvyaml.YAML;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Esko Luontola
@@ -21,7 +18,7 @@ public class FileFormatSpec extends Specification<Object> {
 
         private ParseResults results;
 
-        public Object create() {
+        public void create() {
             String fileText = "" +
                     "default.version: sgs-src-*-r*.zip!/sgs-src-*-r* | sgs-src-([\\d\\.]+)-r(\\d+) >> %1$s\n" +
                     "\n" +
@@ -62,7 +59,6 @@ public class FileFormatSpec extends Specification<Object> {
                     "";
             Object data = YAML.load(fileText);
             results = PommacParser.parse(data);
-            return null;
         }
 
         public void willReadDefaultVersion() {
@@ -153,7 +149,7 @@ public class FileFormatSpec extends Specification<Object> {
 
         private ParseResults results;
 
-        public Object create() {
+        public void create() {
             String fileText = "" +
                     "default.version: slick.zip!/lib/slick.jar!/version >> build=(\\d+) >> b%1$d\n" +
                     "\n" +
@@ -228,7 +224,6 @@ public class FileFormatSpec extends Specification<Object> {
                     "";
             Object data = YAML.load(fileText);
             results = PommacParser.parse(data);
-            return null;
         }
 
         public void willReadDefaultVersion() {

@@ -3,11 +3,8 @@ package net.orfjackal.pommac;
 import net.orfjackal.pommac.util.FileUtil;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
 /**
  * @author Esko Luontola

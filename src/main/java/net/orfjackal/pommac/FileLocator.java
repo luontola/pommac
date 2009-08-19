@@ -1,10 +1,8 @@
 package net.orfjackal.pommac;
 
-import net.orfjackal.pommac.util.WorkDirectoryManager;
-import net.orfjackal.pommac.util.ZipUtil;
+import net.orfjackal.pommac.util.*;
 
-import java.io.File;
-import java.io.FileFilter;
+import java.io.*;
 import java.util.regex.Pattern;
 
 /**
