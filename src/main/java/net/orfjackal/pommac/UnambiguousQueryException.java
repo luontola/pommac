@@ -31,6 +31,13 @@ public class UnambiguousQueryException extends RuntimeException {
 
     private static String toMessage(String query, File[] found) {
         return "Unambiguous query: " + query + "\n" +
-                "More than one match: " + Arrays.asList(found);
+                "More than one match: " + toString(found);
+    }
+
+    private static String toString(File[] found) {
+        // The list is sorted to prevent flaky tests, which check the error message.
+        found = found.clone();
+        Arrays.sort(found);
+        return Arrays.toString(found);
     }
 }
